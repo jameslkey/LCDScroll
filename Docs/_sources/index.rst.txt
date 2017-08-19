@@ -11,6 +11,7 @@ Welcome to LcdScroll's documentation!
    :caption: Contents:
 
    LcdScroll
+   doc_example
 
 
 Indices and tables
