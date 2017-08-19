@@ -13,11 +13,33 @@ Comments go here!!!
 
 
 import os
+
+import LcdScroll
+
 if os.name == 'nt':
-    import Waxfruit_CharLCD as Adafruit_CharLCDPlate
+    from Waxfruit_CharLCD import Adafruit_CharLCDPlate
+    import Waxfruit_CharLCD as Adafruit_CharLCD
 else:
-    import Adafruit_CharLCD
+    import Adafruit_CharLCD  # pylint: disable=F0401
     from Adafruit_CharLCD import Adafruit_CharLCDPlate  # pylint: disable=F0401
+
+
+class LcdScroll_CharLCD(Adafruit_CharLCD.Adafruit_CharLCD, LcdScroll):
+    def __init__(self):
+        Adafruit_CharLCD.Adafruit_CharLCD.__init__()
+        LcdScroll.LcdScroll.__init__()
+
+
+class LcdScroll_CharLCDPlate(Adafruit_CharLCD.Adafruit_CharLCDPlate, LcdScroll):
+    def __init__(self, address=0x20, busnum='', cols: int =16, lines: int=2, cursor: bool=False):
+        Adafruit_CharLCD.Adafruit_CharLCDPlate.__init__(self, address=address, busnum=busnum, cols=cols, lines=lines)
+        LcdScroll.LcdScroll.__init__(LcdScroll.LcdScroll(), cols=cols, lines=lines, cursor=cursor)
+
+
+class LcdScroll_RGBCharLCD(Adafruit_CharLCD.Adafruit_RGBCharLCD, LcdScroll):
+    def __init__(self):
+        Adafruit_CharLCD.Adafruit_RGBCharLCD.__init__()
+        LcdScroll.LcdScroll.__init__()
 
 
 class LcdScroll:
@@ -34,22 +56,22 @@ class LcdScroll:
 
     .. todo:: remove this fake assignment of Lcd.Adafruit...
 
-    :param lcd: Adafruit CharLCD object (req.)
-    :param cols:
-    :param lines:
-    :param cursor:
+    Args:
+
+        lcd: (:obj:`Adafruit_CharLCD`): Adafruit CharLCD object (req.)
+        cols: (int, optional): Number of columns on display
+        lines: (int, optional): Number of line on display
+        cursor: (bool, optional): True or False, enable bouncing ball style cursor
 
 
     """
 
-    def __init__(self, lcd, **kwargs):
-        for k in kwargs.keys():
-            if k in ['cols', 'lines', 'cursor', ]:
-                self.__setattr__(k, kwargs[k])
+    def __init__(self, lcd, cols: int=16, lines: int=2, cursor: bool=False):
 
         #: Adafruit CharLCD Object
-        """if not isinstance(lcd, Adafruit_CharLCD.Adafruit_CharLCD):
-            self.lcd = Adafruit_CharLCD.Adafruit_CharLCDPlate(cols=cols, lines=lines)"""
+        self.lcd = lcd
+        if not isinstance(lcd, Adafruit_CharLCD.Adafruit_CharLCD):
+            self.lcd = Adafruit_CharLCDPlate(cols=cols, lines=lines)
 
         #: Tuple containing display and init to common values
         self._display_size = [cols, lines]
@@ -66,7 +88,7 @@ class LcdScroll:
         #: Internal "bouncing ball" cursor switch
         self._cursor_enabled = cursor
         #: current position of cursor
-        self._cursor_position = 0
+        self._cursor_position = [0, 0]
 
     @property
     def message(self) -> str:
@@ -145,7 +167,9 @@ class LcdScroll:
     def columns(self) -> int:
         r"""
 
-        :return int:
+        Returns:
+
+             Number of columns on display
 
         """
         return self._display_size[0]
@@ -206,9 +230,11 @@ class LcdScroll:
         Set true if "bouncing ball" cursor is desired
 
         """
+        if not(enabled | (not enabled)):
+            raise LcdScrollEx('Error display_size must be positive integers greater than zero')
         self._cursor_enabled = enabled
 
-    def trigger_cursor(self, position: int):
+    def trigger_cursor(self, position: tuple=(None, None)):
         """
         Trigger the cursor movement or set to custom location.
         Second line.
@@ -216,28 +242,42 @@ class LcdScroll:
         :param position:
 
         """
-        self._cursor_position = position
+        local_position = list(position)
+        if (local_position[0] is None) and (local_position[1] is None):
+            local_position[0] = self._cursor_position[0]
+            local_position[1] = self._cursor_position[1]
 
-    def trigger_letter(self, index: int):
-        """
-        Trigger the display of next letter or letter at index (0 based)
+        if ((local_position[0] < 0) | (local_position[0] >= self._display_size[0]) | (local_position[1] < 0) |
+                (local_position[1] >= self._display_size[1])):
+            raise LcdScrollEx('Error cursor position is not within the display area')
 
-        :param index:
-        :return:
+        if position[0] == 0:
+            self._cursor_position = local_position
+        else:
+            self._cursor_position[0] += 1
 
-        """
-        pass
+        if self._cursor_position[0] == self.display_size[0]:
+            self._cursor_position[0] = 0
+        self.lcd.set_cursor(self._cursor_position[0], self._cursor_position[1])
 
-    def send_character(self, char: str):
+    def send_character(self, char: str, position: tuple=(None, None)):
         """
         Sends one character to the display. Primarily used by bouncing ball option.
         To be overridden by derived classes to add functionality.
 
         :param char:
+        :param position:
 
 
         """
-        self.lcd.message(char)
+        if len(char) > 1:
+            raise LcdScrollEx('More than one character sent to send_character()')
+        local_position = list(position)
+        if (local_position[0] is None) and (local_position[1] is None):
+            self.lcd.message(char)
+        else:
+            self.lcd.set_cursor(local_position[0], local_position[1])
+            self.lcd.message(char)
 
     def send_word(self, word: str):
         """
