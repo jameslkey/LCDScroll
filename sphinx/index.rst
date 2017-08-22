@@ -1,9 +1,9 @@
-.. LcdScroll documentation master file, created by
-   sphinx-quickstart on Thu Aug 17 16:55:07 2017.
+.. LCDScroll documentation master file, created by
+   sphinx-quickstart on Sat Aug 19 23:17:49 2017.
    You can adapt this file completely to your liking, but it should at least
    contain the root `toctree` directive.
 
-Welcome to LcdScroll's documentation!
+Welcome to LCDScroll's documentation!
 =====================================
 
 .. toctree::
@@ -11,6 +11,8 @@ Welcome to LcdScroll's documentation!
    :caption: Contents:
 
    LcdScroll
+   Waxfruit_CharLCD
+   doc_example
 
 
 Indices and tables

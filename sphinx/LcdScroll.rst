@@ -11,6 +11,14 @@ Subpackages
 Submodules
 ----------
 
+LcdScroll\.doc\_example module
+------------------------------
+
+.. automodule:: LcdScroll.doc_example
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
 LcdScroll\.lcdscroll module
 ---------------------------
 
@@ -18,7 +26,6 @@ LcdScroll\.lcdscroll module
     :members:
     :undoc-members:
     :show-inheritance:
-
 
 Module contents
 ---------------
