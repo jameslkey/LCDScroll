@@ -268,16 +268,29 @@ class Adafruit_CharLCD(object):
             self.write8(pattern[i], char_mode=True)
 
     def _delay_microseconds(self, microseconds):
+        """
+
+        Args:
+            microseconds:
+        """
         # Busy wait in loop because delays are generally very short (few microseconds).
         end = time.time() + (microseconds / 1000000.0)
         while time.time() < end:
             pass
 
     def _pulse_enable(self):
+        """
+
+        """
         # Pulse the clock enable line off, on, off to send command.
         pass
 
     def _pwm_duty_cycle(self, intensity):
+        """
+
+        Args:
+            intensity:
+        """
         # Convert intensity value of 0.0 to 1.0 to a duty cycle of 0.0 to 100.0
         pass
 
@@ -325,10 +338,20 @@ class Adafruit_RGBCharLCD(Adafruit_CharLCD):
         # Setup backlight pins.
 
     def _rgb_to_duty_cycle(self, rgb):
+        """
+
+        Args:
+            rgb:
+        """
         # Convert tuple of RGB 0-1 values to tuple of duty cycles (0-100).
         pass
 
     def _rgb_to_pins(self, rgb):
+        """
+
+        Args:
+            rgb:
+        """
         # Convert tuple of RGB 0-1 values to dict of pin values.
         pass
 

@@ -14,15 +14,28 @@ from unittest import TestCase
 from LcdScroll import LcdScroll_CharLCDPlate
 from unittest import skip
 from LcdScroll import LcdScrollEx
+from LcdScroll import LCDSCROLL_UP, LCDSCROLL_DOWN
 import pytest
 import time
 
 
 class TestLcdScroll(TestCase):
+    """
+    """
     def setUp(self):
+        """
+
+        """
         self.columns = 20
         self.lines = 4
         self.display = LcdScroll_CharLCDPlate(cols=self.columns, lines=self.lines)
+        self.display.clear()
+        self.display.set_backlight(0)
+
+    def tearDown(self):
+        """
+
+        """
         self.display.clear()
         self.display.set_backlight(0)
 
@@ -44,10 +57,16 @@ class TestLcdScroll(TestCase):
 
     @skip
     def test_special_characters_set(self):
+        """
+
+        """
         self.fail()
 
     @skip
     def test_special_characters(self):
+        """
+
+        """
         self.fail()
 
     def test_display_size_set(self):
@@ -64,9 +83,15 @@ class TestLcdScroll(TestCase):
         self.assertEqual(self.display.display_size, (16, 2), 'Unable to change display size')
 
         def set_col():
+            """
+
+            """
             self.display.columns = 0
 
         def set_line():
+            """
+
+            """
             self.display.lines = -3
 
         self.assertRaises(LcdScrollEx, set_col)
@@ -98,6 +123,9 @@ class TestLcdScroll(TestCase):
         self.assertIsInstance(self.display.display_cursor, bool, 'display_cursor() Did not return Bool')
 
     def test_trigger_cursor_set(self):
+        """
+
+        """
         self.display.columns = self.columns
         self.display.lines = self.lines
         self.display.set_backlight(1)
@@ -117,7 +145,7 @@ class TestLcdScroll(TestCase):
             self.display.message(chr(ord('A') + x))
         for x in range(0, cols):
             self.display.trigger_cursor()
-            time.sleep(.5)
+            time.sleep(.1)
 
         self.display.set_backlight(0)
         self.display.blink(False)
@@ -135,9 +163,56 @@ class TestLcdScroll(TestCase):
 
     @skip
     def test_send_word(self):
+        """
+
+        """
         self.fail()
 
     @skip
     def test_send_message(self):
-        self.fail()
+        """
 
+        """
+        self.display.message_text = ('This is a message that is longer than 20 characters. Heck it\'s longer'
+                                     ' than 30 and probably longer than forty characters. If this works it will'
+                                     ' scroll and then place each word and iterate the characters!!!')
+        self.display.set_backlight(1)
+        self.display.direction = LCDSCROLL_DOWN
+        self.display.show_cursor(True)
+        # self.display.send_message()
+        time.sleep(2)
+
+        self.display.show_cursor(False)
+        self.display.send_message()
+
+        '''self.display.direction = LCDSCROLL_UP
+        self.display.show_cursor(True)
+        self.display.send_message()
+
+        self.display.show_cursor(False)
+        self.display.send_message()'''
+
+    def fill_display(self):
+        """
+
+        """
+        self.display.set_backlight(1)
+        self.display.set_cursor(0, 0)
+        self.display.message('abcdefghijklmnopqrst')
+        self.display.set_cursor(1, 0)
+        self.display.message('bcdefghijklmnopqrstu')
+        self.display.set_cursor(2, 0)
+        self.display.message('cdefghijklmnopqrstuv')
+        self.display.set_cursor(3, 0)
+        self.display.message('defghijklmnopqrstuvw')
+
+    def test_scroll(self):
+        """
+
+        """
+        self.fill_display()
+        self.display.direction = LCDSCROLL_UP
+        self.display._scroll()
+        self.fill_display()
+        self.display.direction = LCDSCROLL_DOWN
+        self.display._scroll()

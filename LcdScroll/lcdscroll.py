@@ -45,14 +45,7 @@ Depending on the font used to display these tables, the lines may not be equal. 
 
 """
 
-
-import os
-if os.name == 'nt':
-    from Waxfruit_CharLCD import Adafruit_CharLCDPlate
-    import Waxfruit_CharLCD as Adafruit_CharLCD
-else:
-    import Adafruit_CharLCD  # pylint: disable=F0401
-    from Adafruit_CharLCD import Adafruit_CharLCDPlate  # pylint: disable=F0401
+import Adafruit_CharLCD  # pylint: disable=F0401
 
 
 LCDSCROLL_DOWN = 0
@@ -84,6 +77,14 @@ class LcdScroller:
     """
 
     def __init__(self, cols: int=16, lines: int=2, direction: int=LCDSCROLL_DOWN, cursor: bool=False):
+        """
+
+        Args:
+            cols:
+            lines:
+            direction:
+            cursor:
+        """
         self._display_size = [cols, lines]
         #: Internal Message to send
         self._message_text = ''
@@ -92,6 +93,8 @@ class LcdScroller:
         if not isinstance(self.special_characters, dict):
             raise LcdScrollEx('special_characters need to be a dictionary object')
         self._screen_buffer = []
+        for line in range(0, lines - 1):
+            self._screen_buffer.append('')
         self._line_buffer = ''
         self._word_buffer = ''
         self._remaining_line_buffer, _ = self.display_size
@@ -100,6 +103,7 @@ class LcdScroller:
         #: current position of cursor
         self._cursor_position = [0, 0]
         self.direction = direction
+        self._word = ''
 
     @property
     def message_text(self) -> str:
@@ -183,6 +187,8 @@ class LcdScroller:
         """
         if lines <= 0:
             raise LcdScrollEx('Error display_size must be positive integers greater than zero')
+        for line in range(0, lines - 1):
+            self._screen_buffer.append('')
         self._display_size[1] = lines
 
     @property
@@ -271,6 +277,57 @@ class LcdScroller:
         """
         self.message(word)
 
+    def _scroll(self):
+        screen_buffer = []
+
+        def scroll_down():
+            nonlocal screen_buffer
+            for line in range(0, self.lines - 2):
+                screen_buffer[line] = self._screen_buffer[line + 1]
+
+        def scroll_up():
+            nonlocal screen_buffer
+            for line in range(1, self.lines - 1):
+                screen_buffer[line - 1] = self._screen_buffer[line]
+
+        if self.lines > 0:
+            if LCDSCROLL_DOWN:
+                scroll_down()
+            else:
+                scroll_up()
+            for row in range(0, self.lines - 1):
+                self.set_cursor(0, row)
+                self.message(self._screen_buffer[row])
+            self._screen_buffer = screen_buffer
+
+    def _send_message_with_cursor(self):
+        while True:
+
+            # iterate number of letters?
+            # cursor 0 - col-1
+            # calc word length
+            self.send_word(self._word)  # display word
+            # set cursor pos to current - word length
+            # make cursor visible?
+            # iterate letters of word
+            # play char
+            # move cursor
+            # if iteration var = word length: break | or try: except:?
+
+    def _send_message_without_cursor(self, string):
+        string_buffer = list(string)
+        while len(string_buffer) > 0:
+            # while there are letters
+            # display letter
+            self.send_character(string_buffer.pop(0))
+
+    def _set_init_cursor_pos(self):
+        if len(str(self._line_buffer)) is 0:  # Move cursor to Bottom line
+            if LCDSCROLL_DOWN:
+                self.set_cursor(0, 0)
+            else:  # LCDSCROLL_UP
+                self.set_cursor(0, self.lines - 1)
+
     def send_message(self):
         """
         Method to initiate sending
@@ -278,97 +335,42 @@ class LcdScroller:
         .. todo:: Not end of string in message?
 
         """
-        '''
-        Order of events:
-
-        --get message
-        --break into words
-        --calculate if there is room on the line if not new line
-
-        if Bouncing Ball
-        place word on line
-        move visible cursor to first letter of word
-        send corresponding morse character
-        iterate though word one letter at a time
-        --if not Bouncing Ball
-        --send word one character at a time to LCD
-
-        '''
         # set initial state
         columns, rows = self.display_size
         self.clear()
         self.show_cursor(False)
         self._line_buffer = 0
         self._cursor_position = 0
-        for row in range(0, rows - 1):
-            self._screen_buffer[row] = ''
-
-        def scroll():
-            screen_buffer = []
-
-            def scroll_down():
-                nonlocal screen_buffer
-                for row in range(0, rows - 2):
-                    screen_buffer[row] = self._screen_buffer[row + 1]
-
-            def scroll_up():
-                nonlocal screen_buffer
-                for row in range(1, rows - 1):
-                    screen_buffer[row - 1] = self._screen_buffer[row]
-
-            if rows > 0:
-                if LCDSCROLL_DOWN:
-                    scroll_down()
-                else:
-                    scroll_up()
-                for row in range(0, rows - 1):
-                    self.set_cursor(0, row)
-                    self.message(self._screen_buffer[row])
-                self._screen_buffer = screen_buffer
-
-        def send_message_with_cursor():
-            while True:
-                # iterate number of letters?
-                # cursor 0 - col-1
-                # calc word length
-                self.send_word(word)  # display word
-                # set cursor pos to current - word length
-                # make cursor visible?
-                # iterate letters of word
-                # play char
-                # move cursor
-                # if iteration var = word length: break | or try: except:?
-
-        def send_message_without_cursor():
-            while True:
-                # while True iterate number of letters
-                for char in word.split():
-                    # display letter
-                    self.send_character(char)
+        for line in range(0, self.lines - 1):
+            self._screen_buffer[line] = ''
 
         # break into words
-        local_message = self.message_text.split(' ')
+        local_message_temp = self.message_text
+        local_message = []
+        while len(local_message_temp) > 0:
+            word_buffer = local_message_temp.partition(" ")
+            local_message.append(word_buffer[0])
+            local_message[-1] += word_buffer[1]
+            local_message_temp = word_buffer[2]
+
 
         while True:
             try:
+                self._set_init_cursor_pos()
                 for word in local_message:  # feed one at a time to display
-                    if len(str(self._line_buffer)) is 0:  # Move cursor to Bottom line
-                        if LCDSCROLL_DOWN:
-                            self.set_cursor(0, 0)
-                        else:  # LCDSCROLL_UP
-                            self.set_cursor(0, rows - 1)
                     # calculate if there is room on the line if not move text up
                     if len(word) > self._remaining_line_buffer:
                         self.clear()
-                        scroll()
+                        self._scroll()
                         self._remaining_line_buffer = columns
-                        # === logic sounds good until here
+
                     if self.display_cursor:
-                        send_message_with_cursor()
-
+                        self._send_message_with_cursor()
+                        self._remaining_line_buffer -= len(word)
                     else:
-                        send_message_without_cursor()
-
+                        self._send_message_without_cursor(word)
+                        self._remaining_line_buffer -= len(word)
+                return
             except IndexError:
                 break
 
@@ -465,4 +467,3 @@ class LcdScrollEx(Exception):
         """
         Exception.__init__(self)
         self.message = message
-
