@@ -1,5 +1,6 @@
 # -*- coding: utf-8 -*-
-"""LcdScroll module -- A wrapper for Adafruit_CharLCD that deals with HD44780's line scrolling problems.
+"""
+LcdScroll module -- A wrapper for Adafruit_CharLCD that deals with HD44780's line scrolling problems.
 
 The HD44780 compatible LCD is wonderful except that the lines do not 'roll over' to the next line.
 
@@ -36,10 +37,10 @@ Examples:
 
 Depending on the font used to display these tables, the lines may not be equal. Don't worry they are.
 
-:program: LcdScroll
-:file: lcdscroll
-:platform: Cross-Platform, Primarily Raspberry Pi.
-:synopsis: This module extends the Adafruit_CharLCD class, adds interfaces to automatically scroll from line to line.
+    :program: LcdScroll
+    :file: lcdscroll
+    :platform: Cross-Platform, Primarily Raspberry Pi.
+    :synopsis: This module extends the Adafruit_CharLCD class, adds interfaces to automatically scroll from line to line.
 
 .. moduleauthor:: James L. Key <james@bluepenguinslutions.com>
 
@@ -52,13 +53,19 @@ else:
 
 
 LCDSCROLL_DOWN = 0
+"""int: Module level constant for scrolling direction."""
 LCDSCROLL_UP = 1
+"""int: Module level constant for scrolling direction.
+
+These constants are just mnemonics for the integers but are much nicer.   
+"""
+
 
 
 class LcdScroller:
     # pylint: disable=R0902
     r"""
-    Parsing Control for Adafruit_CharLCD in CERMMorse
+    Parsing Control for LCDScroll
 
     This class implements a set of methods to scroll messages upward on a LCD display.
     The limits are adjustable to different lengths and rows depending on hardware, It parses
@@ -75,7 +82,6 @@ class LcdScroller:
         lines: (int, optional): Number of line on display
         cursor: (bool, optional): True or False, enable bouncing ball style cursor
         direction (:obj:`int`): Direction of Scroll - LCDSCROLL_UP, LCDSCROLL_DOWN  (default DOWN)
-
 
     """
 
@@ -102,43 +108,43 @@ class LcdScroller:
 
     @property
     def message_text(self) -> str:
+        r"""
+        Property: Message buffer to be processed and sent
+
+            :getter: Get LcdScroll.message property
+            :setter (String): Set LcdScroll.message property
+
+        Examples::
+
+            my_message = LcdScroll.message()
+
+            LcdScroll.message_text('This is a message')
+
+        """
         return self._message_text
 
     @message_text.setter
     def message_text(self, message_text: str):
-        r"""
-        Property: Message buffer to be processed and sent
-
-        :getter: Get LcdScroll.message property
-        :setter (String): Set LcdScroll.message property
-
-        Examples::
-
-        my_message = LcdScroll.message()
-
-        LcdScroll.message_text('This is a message')
-
-        """
         self._message_text = message_text
 
     @property
     def special_characters(self) -> dict:
         r"""
-                Property: List of special characters that need special handling
+        Property: List of special characters that need special handling
 
-                :getter: Get LcdScroll.special_characters property
-                :setter (Dictionary): Set LcdScroll.special_characters property
+        :getter: Get LcdScroll.special_characters property
+        :setter (Dictionary): Set LcdScroll.special_characters property
 
-                Example::
+        Example::
 
-                    spec_char = LcdScroll.special_characters()
+            spec_char = LcdScroll.special_characters()
 
-                    LcdScroll.special_characters({'\u00B': '\x00', }
+            LcdScroll.special_characters({'\u00B': '\x00', }
 
 
-                Returns: Dictionary of Special Characters
+        Returns: Dictionary of Special Characters
 
-                """
+        """
         return self._special_characters
 
     @special_characters.setter
@@ -146,16 +152,18 @@ class LcdScroller:
         self._special_characters = special_characters
 
     @property
-    def display_size(self) -> tuple:
+    def display_size(self):
+        r"""
+        Simply returns the display size that has been set as a tuple.
 
+        Returns:
+            :obj:`tuple`: (columns, lines)
+
+        """
         return self._display_size[0], self._display_size[1]
 
     @property
     def columns(self) -> int:
-        return self._display_size[0]
-
-    @columns.setter
-    def columns(self, columns: int = 16):
         r"""
         Sets number of columns for display size
 
@@ -163,16 +171,16 @@ class LcdScroller:
             columns (int): Number of lines in display
 
         """
+        return self._display_size[0]
+
+    @columns.setter
+    def columns(self, columns: int = 16):
         if columns <= 0:
             raise LcdScrollEx('Error display_size must be positive integers greater than zero')
         self._display_size[0] = columns
 
     @property
     def lines(self) -> int:
-        return self._display_size[1]
-
-    @lines.setter
-    def lines(self, lines: int = 1):
         r"""
         Sets number of lines for display size
 
@@ -180,6 +188,10 @@ class LcdScroller:
             lines (int): Number of lines in display
 
         """
+        return self._display_size[1]
+
+    @lines.setter
+    def lines(self, lines: int = 1):
         if lines <= 0:
             raise LcdScrollEx('Error display_size must be positive integers greater than zero')
         for line in range(0, lines - 1):
@@ -187,11 +199,7 @@ class LcdScroller:
         self._display_size[1] = lines
 
     @property
-    def display_cursor(self) -> bool:
-        return self._cursor_enabled
-
-    @display_cursor.setter
-    def display_cursor(self, enabled: bool = True):
+    def display_cursor(self):
         r"""
         Property: Set to enable of disable "Bouncing Ball" cursor during display
 
@@ -199,7 +207,7 @@ class LcdScroller:
         :setter (Bool): Set the ScrollLcd.display_size property
 
         Returns:
-           Bool: Option state
+            :obj:`bool`: Option state
 
         Examples::
 
@@ -209,6 +217,10 @@ class LcdScroller:
             LcdScroll.display_cursor(True)
 
         """
+        return self._cursor_enabled
+
+    @display_cursor.setter
+    def display_cursor(self, enabled: bool = True):
         if not(enabled | (not enabled)):
             raise LcdScrollEx('Error display_size must be positive integers greater than zero')
         self._cursor_enabled = enabled
@@ -216,10 +228,9 @@ class LcdScroller:
     def trigger_cursor(self, position: tuple=(None, None)):
         """
         Trigger the cursor movement or set to custom location.
-        Second line.
 
         Args:
-             position:
+            position, optional: (column, line)
 
         """
         local_position = list(position)
@@ -241,14 +252,14 @@ class LcdScroller:
         self.set_cursor(self._cursor_position[0], self._cursor_position[1])
 
     def send_character(self, char: str, position: tuple=(None, None)):
-        """
-        Sends one character to the display. Primarily used by bouncing ball option.
+        r"""Sends one character to the display.
+
+        Primarily used by bouncing ball option.
         To be overridden by derived classes to add functionality.
 
         Args:
             char:
             position:
-
 
         """
         if len(char) > 1:
@@ -266,13 +277,18 @@ class LcdScroller:
         To be overridden by derived classes to add functionality.
 
         Args:
-            word:
-
+            word: Word to send
 
         """
         self.message(word)
 
     def _scroll(self):
+        r"""
+        Private function to initiate scroll action
+
+        Returns:
+
+        """
         screen_buffer = []
 
         def scroll_down():
@@ -296,6 +312,13 @@ class LcdScroller:
             self._screen_buffer = screen_buffer
 
     def _send_message_with_cursor(self):
+        r"""
+        Private function controlling logic for sending the message WITH
+        the bouncing ball option set.
+
+        Returns:
+
+        """
         while True:
 
             # iterate number of letters?
@@ -310,6 +333,16 @@ class LcdScroller:
             # if iteration var = word length: break | or try: except:?
 
     def _send_message_without_cursor(self, string):
+        r"""
+        Private function controlling logic for sending the message WITHOUT
+        the bouncing ball option set.
+
+        Args:
+            string:
+
+        Returns:
+
+        """
         string_buffer = list(string)
         while len(string_buffer) > 0:
             # while there are letters
@@ -317,6 +350,13 @@ class LcdScroller:
             self.send_character(string_buffer.pop(0))
 
     def _set_init_cursor_pos(self):
+        r"""
+        Simple functions to place the cursor in the starting position based on the
+        bouncing ball option.
+
+        Returns:
+
+        """
         if len(str(self._line_buffer)) is 0:  # Move cursor to Bottom line
             if LCDSCROLL_DOWN:
                 self.set_cursor(0, 0)
@@ -327,7 +367,7 @@ class LcdScroller:
         """
         Method to initiate sending
 
-        .. todo:: Not end of string in message?
+            .. todo:: Not end of string in message?
 
         """
         # set initial state
@@ -436,12 +476,12 @@ class LcdScroll_CharLCDPlate(Adafruit_CharLCD.Adafruit_CharLCDPlate, LcdScroller
     (default is 16x2).
 
     Args:
-            address (:obj:`hex`, optional): I2C address
-            busnum: (:obj:`int`, optional): I2C bus number
-            cols (:obj:`int`): Number of columns on display (default 16)
-            lines (:obj:`int`): Number of Lines on display (default 2)
-            direction (:obj:`int`): Direction of Scroll - LCDSCROLL_UP, LCDSCROLL_DOWN  (default LCDSCROLL_DOWN)
-            cursor: Turn on the bouncing ball style cursor  (default False)
+        address (:obj:`hex`, optional): I2C address
+        busnum: (:obj:`int`, optional): I2C bus number
+        cols (:obj:`int`): Number of columns on display (default 16)
+        lines (:obj:`int`): Number of Lines on display (default 2)
+        direction (:obj:`int`): Direction of Scroll - LCDSCROLL_UP, LCDSCROLL_DOWN  (default LCDSCROLL_DOWN)
+        cursor: Turn on the bouncing ball style cursor  (default False)
 
     """
     def __init__(self, cols: int =16, lines: int=2, cursor: bool=False, direction: int=LCDSCROLL_DOWN, *args, **kwargs):
@@ -476,24 +516,24 @@ class LcdScroll_RGBCharLCD(Adafruit_CharLCD.Adafruit_RGBCharLCD, LcdScroller):
     be used.
 
     Args:
-            rs (:obj:`int`): Pin Connection
-            en (:obj:`int`): Pin Connection
-            d4 (:obj:`int`): Pin Connection
-            d5 (:obj:`int`): Pin Connection
-            d6 (:obj:`int`): Pin Connection
-            d7 (:obj:`int`): Pin Connection
-            cols (:obj:`int`): Number of columns on display (default 16)
-            lines (:obj:`int`): Number of Lines on display (default 2)
-            red (:obj:`int`): Pin Connection
-            green (:obj:`int`): Pin Connection
-            blue (:obj:`int`): Pin Connection
-            gpio (:obj:`obj`, optional): Optional GPIO class
-            invert_polarity (:obj:`bool`): LEDs are on LOW(True) or HIGH(False)  (default True)
-            enable_pwm (:obj:`bool`): Option for finer control of color  (default False)
-            pwm  (:obj:`obj`, optional): Optional PWM class
-            initial_color (:obj:`tuple`): Initial Color (Default (1.0, 1.0, 1.0)) (R, G, B)
-            direction (:obj:`int`): Direction of Scroll - LCDSCROLL_UP, LCDSCROLL_DOWN  (default DOWN)
-            cursor: Turn on the bouncing ball style cursor  (default False)
+        rs (:obj:`int`): Pin Connection
+        en (:obj:`int`): Pin Connection
+        d4 (:obj:`int`): Pin Connection
+        d5 (:obj:`int`): Pin Connection
+        d6 (:obj:`int`): Pin Connection
+        d7 (:obj:`int`): Pin Connection
+        cols (:obj:`int`): Number of columns on display (default 16)
+        lines (:obj:`int`): Number of Lines on display (default 2)
+        red (:obj:`int`): Pin Connection
+        green (:obj:`int`): Pin Connection
+        blue (:obj:`int`): Pin Connection
+        gpio (:obj:`obj`, optional): Optional GPIO class
+        invert_polarity (:obj:`bool`): LEDs are on LOW(True) or HIGH(False)  (default True)
+        enable_pwm (:obj:`bool`): Option for finer control of color  (default False)
+        pwm  (:obj:`obj`, optional): Optional PWM class
+        initial_color (:obj:`tuple`): Initial Color (Default (1.0, 1.0, 1.0)) (R, G, B)
+        direction (:obj:`int`): Direction of Scroll - LCDSCROLL_UP, LCDSCROLL_DOWN  (default DOWN)
+        cursor: Turn on the bouncing ball style cursor  (default False)
 
     """
     def __init__(self, cols: int, lines: int, cursor: bool=False, direction: int=LCDSCROLL_DOWN, *args, **kwargs):
@@ -506,9 +546,9 @@ class LcdScrollEx(Exception):
     Internal Exception for Scroll Class
 
     Args:
-            message
+        message: The text for the error that gets raised.
 
     """
-    def __init__(self, message):
+    def __init__(self, message: str):
         Exception.__init__(self)
         self.message = message

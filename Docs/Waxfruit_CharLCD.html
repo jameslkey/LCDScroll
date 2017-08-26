@@ -8,7 +8,7 @@
   
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   
-  <title>Waxfruit_CharLCD package &mdash; LcdScroll 0.2.0 documentation</title>
+  <title>Waxfruit_CharLCD package &mdash; LcdScroll 0.4.0 documentation</title>
   
 
   
@@ -35,8 +35,7 @@
         <link rel="index" title="Index"
               href="genindex.html"/>
         <link rel="search" title="Search" href="search.html"/>
-    <link rel="top" title="LcdScroll 0.2.0 documentation" href="index.html"/>
-        <link rel="next" title="Doc Example" href="doc_example.html"/>
+    <link rel="top" title="LcdScroll 0.4.0 documentation" href="index.html"/>
         <link rel="prev" title="LcdScroll.tests package" href="LcdScroll.tests.html"/> 
 
   
@@ -66,7 +65,7 @@
             
             
               <div class="version">
-                0.2.0
+                0.4.0
               </div>
             
           
@@ -99,7 +98,6 @@
 <li class="toctree-l2"><a class="reference internal" href="#module-Waxfruit_CharLCD">Module contents</a></li>
 </ul>
 </li>
-<li class="toctree-l1"><a class="reference internal" href="doc_example.html">Doc Example</a></li>
 </ul>
 
             
@@ -191,6 +189,37 @@
 <em class="property">class </em><code class="descclassname">Waxfruit_CharLCD.Waxfruit_CharLCD.</code><code class="descname">Adafruit_CharLCD</code><span class="sig-paren">(</span><em>rs</em>, <em>en</em>, <em>d4</em>, <em>d5</em>, <em>d6</em>, <em>d7</em>, <em>cols</em>, <em>lines</em>, <em>backlight=None</em>, <em>invert_polarity=True</em>, <em>enable_pwm=False</em>, <em>gpio=''</em>, <em>pwm=''</em>, <em>initial_backlight=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Waxfruit_CharLCD/Waxfruit_CharLCD.html#Adafruit_CharLCD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Class to represent and interact with an HD44780 character Lcd display.</p>
+<dl class="method">
+<dt id="Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD._delay_microseconds">
+<code class="descname">_delay_microseconds</code><span class="sig-paren">(</span><em>microseconds</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Waxfruit_CharLCD/Waxfruit_CharLCD.html#Adafruit_CharLCD._delay_microseconds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD._delay_microseconds" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>microseconds</strong> – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD._pulse_enable">
+<code class="descname">_pulse_enable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Waxfruit_CharLCD/Waxfruit_CharLCD.html#Adafruit_CharLCD._pulse_enable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD._pulse_enable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD._pwm_duty_cycle">
+<code class="descname">_pwm_duty_cycle</code><span class="sig-paren">(</span><em>intensity</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Waxfruit_CharLCD/Waxfruit_CharLCD.html#Adafruit_CharLCD._pwm_duty_cycle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD._pwm_duty_cycle" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>intensity</strong> – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD.autoscroll">
 <code class="descname">autoscroll</code><span class="sig-paren">(</span><em>autoscroll</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Waxfruit_CharLCD/Waxfruit_CharLCD.html#Adafruit_CharLCD.autoscroll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD.autoscroll" title="Permalink to this definition">¶</a></dt>
@@ -314,6 +343,32 @@ Lcd plate.</p>
 <p>Class to represent and interact with an HD44780 character Lcd display with
 an RGB backlight.</p>
 <dl class="method">
+<dt id="Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_RGBCharLCD._rgb_to_duty_cycle">
+<code class="descname">_rgb_to_duty_cycle</code><span class="sig-paren">(</span><em>rgb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Waxfruit_CharLCD/Waxfruit_CharLCD.html#Adafruit_RGBCharLCD._rgb_to_duty_cycle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_RGBCharLCD._rgb_to_duty_cycle" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rgb</strong> – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_RGBCharLCD._rgb_to_pins">
+<code class="descname">_rgb_to_pins</code><span class="sig-paren">(</span><em>rgb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Waxfruit_CharLCD/Waxfruit_CharLCD.html#Adafruit_RGBCharLCD._rgb_to_pins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_RGBCharLCD._rgb_to_pins" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rgb</strong> – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_RGBCharLCD.set_backlight">
 <code class="descname">set_backlight</code><span class="sig-paren">(</span><em>backlight</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Waxfruit_CharLCD/Waxfruit_CharLCD.html#Adafruit_RGBCharLCD.set_backlight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_RGBCharLCD.set_backlight" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enable or disable the backlight.  If PWM is not enabled (default), a
@@ -358,6 +413,37 @@ Lcd plate.</p>
 <em class="property">class </em><code class="descclassname">Waxfruit_CharLCD.</code><code class="descname">Adafruit_CharLCD</code><span class="sig-paren">(</span><em>rs</em>, <em>en</em>, <em>d4</em>, <em>d5</em>, <em>d6</em>, <em>d7</em>, <em>cols</em>, <em>lines</em>, <em>backlight=None</em>, <em>invert_polarity=True</em>, <em>enable_pwm=False</em>, <em>gpio=''</em>, <em>pwm=''</em>, <em>initial_backlight=1.0</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Waxfruit_CharLCD/Waxfruit_CharLCD.html#Adafruit_CharLCD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Waxfruit_CharLCD.Adafruit_CharLCD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
 <p>Class to represent and interact with an HD44780 character Lcd display.</p>
+<dl class="method">
+<dt id="Waxfruit_CharLCD.Adafruit_CharLCD._delay_microseconds">
+<code class="descname">_delay_microseconds</code><span class="sig-paren">(</span><em>microseconds</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Waxfruit_CharLCD/Waxfruit_CharLCD.html#Adafruit_CharLCD._delay_microseconds"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Waxfruit_CharLCD.Adafruit_CharLCD._delay_microseconds" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>microseconds</strong> – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Waxfruit_CharLCD.Adafruit_CharLCD._pulse_enable">
+<code class="descname">_pulse_enable</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/Waxfruit_CharLCD/Waxfruit_CharLCD.html#Adafruit_CharLCD._pulse_enable"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Waxfruit_CharLCD.Adafruit_CharLCD._pulse_enable" title="Permalink to this definition">¶</a></dt>
+<dd></dd></dl>
+
+<dl class="method">
+<dt id="Waxfruit_CharLCD.Adafruit_CharLCD._pwm_duty_cycle">
+<code class="descname">_pwm_duty_cycle</code><span class="sig-paren">(</span><em>intensity</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Waxfruit_CharLCD/Waxfruit_CharLCD.html#Adafruit_CharLCD._pwm_duty_cycle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Waxfruit_CharLCD.Adafruit_CharLCD._pwm_duty_cycle" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>intensity</strong> – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
 <dl class="method">
 <dt id="Waxfruit_CharLCD.Adafruit_CharLCD.autoscroll">
 <code class="descname">autoscroll</code><span class="sig-paren">(</span><em>autoscroll</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Waxfruit_CharLCD/Waxfruit_CharLCD.html#Adafruit_CharLCD.autoscroll"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Waxfruit_CharLCD.Adafruit_CharLCD.autoscroll" title="Permalink to this definition">¶</a></dt>
@@ -467,6 +553,32 @@ non-character data (default).</p>
 <p>Class to represent and interact with an HD44780 character Lcd display with
 an RGB backlight.</p>
 <dl class="method">
+<dt id="Waxfruit_CharLCD.Adafruit_RGBCharLCD._rgb_to_duty_cycle">
+<code class="descname">_rgb_to_duty_cycle</code><span class="sig-paren">(</span><em>rgb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Waxfruit_CharLCD/Waxfruit_CharLCD.html#Adafruit_RGBCharLCD._rgb_to_duty_cycle"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Waxfruit_CharLCD.Adafruit_RGBCharLCD._rgb_to_duty_cycle" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rgb</strong> – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
+<dt id="Waxfruit_CharLCD.Adafruit_RGBCharLCD._rgb_to_pins">
+<code class="descname">_rgb_to_pins</code><span class="sig-paren">(</span><em>rgb</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Waxfruit_CharLCD/Waxfruit_CharLCD.html#Adafruit_RGBCharLCD._rgb_to_pins"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Waxfruit_CharLCD.Adafruit_RGBCharLCD._rgb_to_pins" title="Permalink to this definition">¶</a></dt>
+<dd><table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>rgb</strong> – </td>
+</tr>
+</tbody>
+</table>
+</dd></dl>
+
+<dl class="method">
 <dt id="Waxfruit_CharLCD.Adafruit_RGBCharLCD.set_backlight">
 <code class="descname">set_backlight</code><span class="sig-paren">(</span><em>backlight</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/Waxfruit_CharLCD/Waxfruit_CharLCD.html#Adafruit_RGBCharLCD.set_backlight"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#Waxfruit_CharLCD.Adafruit_RGBCharLCD.set_backlight" title="Permalink to this definition">¶</a></dt>
 <dd><p>Enable or disable the backlight.  If PWM is not enabled (default), a
@@ -498,8 +610,6 @@ components should be zero for off and non-zero for on.</p>
           <footer>
   
     <div class="rst-footer-buttons" role="navigation" aria-label="footer navigation">
-      
-        <a href="doc_example.html" class="btn btn-neutral float-right" title="Doc Example" accesskey="n" rel="next">Next <span class="fa fa-arrow-circle-right"></span></a>
       
       
         <a href="LcdScroll.tests.html" class="btn btn-neutral" title="LcdScroll.tests package" accesskey="p" rel="prev"><span class="fa fa-arrow-circle-left"></span> Previous</a>
@@ -533,7 +643,7 @@ components should be zero for off and non-zero for on.</p>
     <script type="text/javascript">
         var DOCUMENTATION_OPTIONS = {
             URL_ROOT:'./',
-            VERSION:'0.2.0',
+            VERSION:'0.4.0',
             COLLAPSE_INDEX:false,
             FILE_SUFFIX:'.html',
             HAS_SOURCE:  true,

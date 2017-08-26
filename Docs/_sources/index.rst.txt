@@ -12,7 +12,6 @@ Welcome to LCDScroll's documentation!
 
    LcdScroll
    Waxfruit_CharLCD
-   doc_example
 
 
 
