@@ -1,0 +1,150 @@
+<?xml version="1.0" encoding="utf-8"?><testsuite errors="0" failures="0" name="pytest" skips="0" tests="12" time="4.361"><testcase classname="test_lcdScroll.TestLcdScroll" file="test_lcdScroll.py" line="97" name="test_display_cursor" time="0.0009999275207519531"><system-out>Clear display.
+
+0 0 0
+Clear display.
+
+0 0 0
+</system-out></testcase><testcase classname="test_lcdScroll.TestLcdScroll" file="test_lcdScroll.py" line="86" name="test_display_cursor_set" time="0.0010001659393310547"><system-out>Clear display.
+
+0 0 0
+Clear display.
+
+0 0 0
+</system-out></testcase><testcase classname="test_lcdScroll.TestLcdScroll" file="test_lcdScroll.py" line="79" name="test_display_size" time="0.0020279884338378906"><system-out>Clear display.
+
+0 0 0
+Clear display.
+
+0 0 0
+</system-out></testcase><testcase classname="test_lcdScroll.TestLcdScroll" file="test_lcdScroll.py" line="57" name="test_display_size_set" time="0.0009999275207519531"><system-out>Clear display.
+
+0 0 0
+Clear display.
+
+0 0 0
+</system-out></testcase><testcase classname="test_lcdScroll.TestLcdScroll" file="test_lcdScroll.py" line="41" name="test_message" time="0.0020020008087158203"><system-out>Clear display.
+
+0 0 0
+Clear display.
+
+0 0 0
+</system-out></testcase><testcase classname="test_lcdScroll.TestLcdScroll" file="test_lcdScroll.py" line="33" name="test_message_set" time="0.0015020370483398438"><system-out>Clear display.
+
+0 0 0
+Clear display.
+
+0 0 0
+</system-out></testcase><testcase classname="test_lcdScroll.TestLcdScroll" file="test_lcdScroll.py" line="130" name="test_send_character" time="0.0034990310668945312"><system-out>Clear display.
+
+0 0 0
+97
+98
+Clear display.
+
+0 0 0
+</system-out></testcase><testcase classname="test_lcdScroll.TestLcdScroll" file="test_lcdScroll.py" line="144" name="test_send_message" time="2.021695852279663"><system-out>Clear display.
+
+0 0 0
+1 1 1
+Cursor Visible
+Cursor Invisible
+Clear display.
+
+Cursor Invisible
+84
+104
+105
+115
+32
+105
+115
+32
+97
+32
+109
+101
+115
+115
+97
+103
+101
+32
+Clear display.
+
+Clear display.
+
+0 0 0
+</system-out></testcase><testcase classname="test_lcdScroll.TestLcdScroll" file="..\..\..\..\..\..\Python\Python34\Lib\unittest\case.py" line="89" name="test_send_word" time="0.0009999275207519531"><system-out>Clear display.
+
+0 0 0
+Clear display.
+
+0 0 0
+</system-out></testcase><testcase classname="test_lcdScroll.TestLcdScroll" file="..\..\..\..\..\..\Python\Python34\Lib\unittest\case.py" line="89" name="test_special_characters" time="0.0014710426330566406"><system-out>Clear display.
+
+0 0 0
+Clear display.
+
+0 0 0
+</system-out></testcase><testcase classname="test_lcdScroll.TestLcdScroll" file="..\..\..\..\..\..\Python\Python34\Lib\unittest\case.py" line="89" name="test_special_characters_set" time="0.0014998912811279297"><system-out>Clear display.
+
+0 0 0
+Clear display.
+
+0 0 0
+</system-out></testcase><testcase classname="test_lcdScroll.TestLcdScroll" file="test_lcdScroll.py" line="104" name="test_trigger_cursor_set" time="2.2357900142669678"><system-out>Clear display.
+
+0 0 0
+1 1 1
+Cursor Visible
+Blink Cursor
+Move cursor to 1 0
+Move cursor to 2 0
+Move cursor to 0 0
+65
+66
+67
+68
+69
+70
+71
+72
+73
+74
+75
+76
+77
+78
+79
+80
+81
+82
+83
+84
+Move cursor to 1 0
+Move cursor to 2 0
+Move cursor to 3 0
+Move cursor to 4 0
+Move cursor to 5 0
+Move cursor to 6 0
+Move cursor to 7 0
+Move cursor to 8 0
+Move cursor to 9 0
+Move cursor to 10 0
+Move cursor to 11 0
+Move cursor to 12 0
+Move cursor to 13 0
+Move cursor to 14 0
+Move cursor to 15 0
+Move cursor to 16 0
+Move cursor to 17 0
+Move cursor to 18 0
+Move cursor to 19 0
+Move cursor to 0 0
+0 0 0
+Stop Cursor Blink
+Cursor Invisible
+Clear display.
+
+0 0 0
+</system-out></testcase></testsuite>

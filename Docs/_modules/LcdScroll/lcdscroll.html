@@ -204,15 +204,11 @@
 <span class="sd">.. moduleauthor:: James L. Key &lt;james@bluepenguinslutions.com&gt;</span>
 
 <span class="sd">&quot;&quot;&quot;</span>
-
-
 <span class="kn">import</span> <span class="nn">os</span>
 <span class="k">if</span> <span class="n">os</span><span class="o">.</span><span class="n">name</span> <span class="o">==</span> <span class="s1">&#39;nt&#39;</span><span class="p">:</span>
-    <span class="kn">from</span> <span class="nn">Waxfruit_CharLCD</span> <span class="k">import</span> <span class="n">Adafruit_CharLCDPlate</span>
     <span class="kn">import</span> <span class="nn">Waxfruit_CharLCD</span> <span class="k">as</span> <span class="nn">Adafruit_CharLCD</span>
 <span class="k">else</span><span class="p">:</span>
     <span class="kn">import</span> <span class="nn">Adafruit_CharLCD</span>  <span class="c1"># pylint: disable=F0401</span>
-    <span class="kn">from</span> <span class="nn">Adafruit_CharLCD</span> <span class="k">import</span> <span class="n">Adafruit_CharLCDPlate</span>  <span class="c1"># pylint: disable=F0401</span>
 
 
 <span class="n">LCDSCROLL_DOWN</span> <span class="o">=</span> <span class="mi">0</span>
@@ -238,7 +234,7 @@
 <span class="sd">        cols: (int, optional): Number of columns on display</span>
 <span class="sd">        lines: (int, optional): Number of line on display</span>
 <span class="sd">        cursor: (bool, optional): True or False, enable bouncing ball style cursor</span>
-<span class="sd">        direction:</span>
+<span class="sd">        direction (:obj:`int`): Direction of Scroll - LCDSCROLL_UP, LCDSCROLL_DOWN  (default DOWN)</span>
 
 
 <span class="sd">    &quot;&quot;&quot;</span>
@@ -252,6 +248,8 @@
         <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">special_characters</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
             <span class="k">raise</span> <span class="n">LcdScrollEx</span><span class="p">(</span><span class="s1">&#39;special_characters need to be a dictionary object&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_screen_buffer</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lines</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_screen_buffer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_line_buffer</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_word_buffer</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_remaining_line_buffer</span><span class="p">,</span> <span class="n">_</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">display_size</span>
@@ -260,6 +258,7 @@
         <span class="c1">#: current position of cursor</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cursor_position</span> <span class="o">=</span> <span class="p">[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">]</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">direction</span> <span class="o">=</span> <span class="n">direction</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_word</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">message_text</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
@@ -284,26 +283,26 @@
 
     <span class="nd">@property</span>
     <span class="k">def</span> <span class="nf">special_characters</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">                Property: List of special characters that need special handling</span>
+
+<span class="sd">                :getter: Get LcdScroll.special_characters property</span>
+<span class="sd">                :setter (Dictionary): Set LcdScroll.special_characters property</span>
+
+<span class="sd">                Example::</span>
+
+<span class="sd">                    spec_char = LcdScroll.special_characters()</span>
+
+<span class="sd">                    LcdScroll.special_characters({&#39;\u00B&#39;: &#39;\x00&#39;, }</span>
+
+
+<span class="sd">                Returns: Dictionary of Special Characters</span>
+
+<span class="sd">                &quot;&quot;&quot;</span>
         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_special_characters</span>
 
     <span class="nd">@special_characters</span><span class="o">.</span><span class="n">setter</span>
     <span class="k">def</span> <span class="nf">special_characters</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">special_characters</span><span class="p">:</span> <span class="nb">dict</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-<span class="sd">        Property: List of special characters that need special handling</span>
-
-<span class="sd">        :getter: Get LcdScroll.special_characters property</span>
-<span class="sd">        :setter (Dictionary): Set LcdScroll.special_characters property</span>
-
-<span class="sd">        Example::</span>
-
-<span class="sd">            spec_char = LcdScroll.special_characters()</span>
-
-<span class="sd">            LcdScroll.special_characters({&#39;\u00B&#39;: &#39;\x00&#39;, }</span>
-
-
-<span class="sd">        Returns:</span>
-
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_special_characters</span> <span class="o">=</span> <span class="n">special_characters</span>
 
     <span class="nd">@property</span>
@@ -343,6 +342,8 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="k">if</span> <span class="n">lines</span> <span class="o">&lt;=</span> <span class="mi">0</span><span class="p">:</span>
             <span class="k">raise</span> <span class="n">LcdScrollEx</span><span class="p">(</span><span class="s1">&#39;Error display_size must be positive integers greater than zero&#39;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">lines</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_screen_buffer</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_display_size</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="n">lines</span>
 
     <span class="nd">@property</span>
@@ -431,6 +432,57 @@
 <span class="sd">        &quot;&quot;&quot;</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="n">word</span><span class="p">)</span></div>
 
+    <span class="k">def</span> <span class="nf">_scroll</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="n">screen_buffer</span> <span class="o">=</span> <span class="p">[]</span>
+
+        <span class="k">def</span> <span class="nf">scroll_down</span><span class="p">():</span>
+            <span class="k">nonlocal</span> <span class="n">screen_buffer</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines</span> <span class="o">-</span> <span class="mi">2</span><span class="p">):</span>
+                <span class="n">screen_buffer</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_screen_buffer</span><span class="p">[</span><span class="n">line</span> <span class="o">+</span> <span class="mi">1</span><span class="p">]</span>
+
+        <span class="k">def</span> <span class="nf">scroll_up</span><span class="p">():</span>
+            <span class="k">nonlocal</span> <span class="n">screen_buffer</span>
+            <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="n">screen_buffer</span><span class="p">[</span><span class="n">line</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_screen_buffer</span><span class="p">[</span><span class="n">line</span><span class="p">]</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">if</span> <span class="n">LCDSCROLL_DOWN</span><span class="p">:</span>
+                <span class="n">scroll_down</span><span class="p">()</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="n">scroll_up</span><span class="p">()</span>
+            <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_cursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_screen_buffer</span><span class="p">[</span><span class="n">row</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_screen_buffer</span> <span class="o">=</span> <span class="n">screen_buffer</span>
+
+    <span class="k">def</span> <span class="nf">_send_message_with_cursor</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
+
+            <span class="c1"># iterate number of letters?</span>
+            <span class="c1"># cursor 0 - col-1</span>
+            <span class="c1"># calc word length</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_word</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_word</span><span class="p">)</span>  <span class="c1"># display word</span>
+            <span class="c1"># set cursor pos to current - word length</span>
+            <span class="c1"># make cursor visible?</span>
+            <span class="c1"># iterate letters of word</span>
+            <span class="c1"># play char</span>
+            <span class="c1"># move cursor</span>
+            <span class="c1"># if iteration var = word length: break | or try: except:?</span>
+
+    <span class="k">def</span> <span class="nf">_send_message_without_cursor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">string</span><span class="p">):</span>
+        <span class="n">string_buffer</span> <span class="o">=</span> <span class="nb">list</span><span class="p">(</span><span class="n">string</span><span class="p">)</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">string_buffer</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="c1"># while there are letters</span>
+            <span class="c1"># display letter</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">send_character</span><span class="p">(</span><span class="n">string_buffer</span><span class="o">.</span><span class="n">pop</span><span class="p">(</span><span class="mi">0</span><span class="p">))</span>
+
+    <span class="k">def</span> <span class="nf">_set_init_cursor_pos</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_line_buffer</span><span class="p">))</span> <span class="ow">is</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Move cursor to Bottom line</span>
+            <span class="k">if</span> <span class="n">LCDSCROLL_DOWN</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_cursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
+            <span class="k">else</span><span class="p">:</span>  <span class="c1"># LCDSCROLL_UP</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_cursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
+
 <div class="viewcode-block" id="LcdScroller.send_message"><a class="viewcode-back" href="../../LcdScroll.html#LcdScroll.lcdscroll.LcdScroller.send_message">[docs]</a>    <span class="k">def</span> <span class="nf">send_message</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Method to initiate sending</span>
@@ -438,185 +490,188 @@
 <span class="sd">        .. todo:: Not end of string in message?</span>
 
 <span class="sd">        &quot;&quot;&quot;</span>
-        <span class="sd">&#39;&#39;&#39;</span>
-<span class="sd">        Order of events:</span>
-
-<span class="sd">        --get message</span>
-<span class="sd">        --break into words</span>
-<span class="sd">        --calculate if there is room on the line if not new line</span>
-
-<span class="sd">        if Bouncing Ball</span>
-<span class="sd">        place word on line</span>
-<span class="sd">        move visible cursor to first letter of word</span>
-<span class="sd">        send corresponding morse character</span>
-<span class="sd">        iterate though word one letter at a time</span>
-<span class="sd">        --if not Bouncing Ball</span>
-<span class="sd">        --send word one character at a time to LCD</span>
-
-<span class="sd">        &#39;&#39;&#39;</span>
         <span class="c1"># set initial state</span>
         <span class="n">columns</span><span class="p">,</span> <span class="n">rows</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">display_size</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">show_cursor</span><span class="p">(</span><span class="kc">False</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_line_buffer</span> <span class="o">=</span> <span class="mi">0</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">_cursor_position</span> <span class="o">=</span> <span class="mi">0</span>
-        <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">rows</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
-            <span class="bp">self</span><span class="o">.</span><span class="n">_screen_buffer</span><span class="p">[</span><span class="n">row</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
-
-        <span class="k">def</span> <span class="nf">scroll_down</span><span class="p">():</span>
-            <span class="k">pass</span>
-
-        <span class="k">def</span> <span class="nf">scroll_up</span><span class="p">():</span>
-            <span class="n">screen_buffer</span> <span class="o">=</span> <span class="p">[]</span>
-            <span class="k">if</span> <span class="n">rows</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
-                <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">rows</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
-                    <span class="n">screen_buffer</span><span class="p">[</span><span class="n">row</span> <span class="o">-</span> <span class="mi">1</span><span class="p">]</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_screen_buffer</span><span class="p">[</span><span class="n">row</span><span class="p">]</span>
-                <span class="k">for</span> <span class="n">row</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">rows</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">set_cursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">row</span><span class="p">)</span>
-                    <span class="bp">self</span><span class="o">.</span><span class="n">message</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_screen_buffer</span><span class="p">[</span><span class="n">row</span><span class="p">])</span>
-                <span class="bp">self</span><span class="o">.</span><span class="n">_screen_buffer</span> <span class="o">=</span> <span class="n">screen_buffer</span>
+        <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lines</span> <span class="o">-</span> <span class="mi">1</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">_screen_buffer</span><span class="p">[</span><span class="n">line</span><span class="p">]</span> <span class="o">=</span> <span class="s1">&#39;&#39;</span>
 
         <span class="c1"># break into words</span>
-        <span class="n">local_message</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">message_text</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s1">&#39; &#39;</span><span class="p">)</span>
+        <span class="n">local_message_temp</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">message_text</span>
+        <span class="n">local_message</span> <span class="o">=</span> <span class="p">[]</span>
+        <span class="k">while</span> <span class="nb">len</span><span class="p">(</span><span class="n">local_message_temp</span><span class="p">)</span> <span class="o">&gt;</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">word_buffer</span> <span class="o">=</span> <span class="n">local_message_temp</span><span class="o">.</span><span class="n">partition</span><span class="p">(</span><span class="s2">&quot; &quot;</span><span class="p">)</span>
+            <span class="n">local_message</span><span class="o">.</span><span class="n">append</span><span class="p">(</span><span class="n">word_buffer</span><span class="p">[</span><span class="mi">0</span><span class="p">])</span>
+            <span class="n">local_message</span><span class="p">[</span><span class="o">-</span><span class="mi">1</span><span class="p">]</span> <span class="o">+=</span> <span class="n">word_buffer</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span>
+            <span class="n">local_message_temp</span> <span class="o">=</span> <span class="n">word_buffer</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+
 
         <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
             <span class="k">try</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">_set_init_cursor_pos</span><span class="p">()</span>
                 <span class="k">for</span> <span class="n">word</span> <span class="ow">in</span> <span class="n">local_message</span><span class="p">:</span>  <span class="c1"># feed one at a time to display</span>
-                    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">_line_buffer</span><span class="p">))</span> <span class="ow">is</span> <span class="mi">0</span><span class="p">:</span>  <span class="c1"># Move cursor to Bottom line</span>
-                        <span class="k">if</span> <span class="n">LCDSCROLL_DOWN</span><span class="p">:</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">set_cursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">)</span>
-                        <span class="k">else</span><span class="p">:</span>  <span class="c1"># LCDSCROLL_UP</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">set_cursor</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="n">rows</span> <span class="o">-</span> <span class="mi">1</span><span class="p">)</span>
                     <span class="c1"># calculate if there is room on the line if not move text up</span>
                     <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_remaining_line_buffer</span><span class="p">:</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">clear</span><span class="p">()</span>
-                        <span class="k">if</span> <span class="n">LCDSCROLL_DOWN</span><span class="p">:</span>
-                            <span class="n">scroll_down</span><span class="p">()</span>
-                        <span class="k">else</span><span class="p">:</span>
-                            <span class="n">scroll_up</span><span class="p">()</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_scroll</span><span class="p">()</span>
                         <span class="bp">self</span><span class="o">.</span><span class="n">_remaining_line_buffer</span> <span class="o">=</span> <span class="n">columns</span>
-                        <span class="c1"># === logic sounds good until here</span>
+
                     <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">display_cursor</span><span class="p">:</span>
-                        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-                            <span class="c1"># iterate number of letters?</span>
-                            <span class="c1"># cursor 0 - col-1</span>
-                            <span class="c1"># calc word length</span>
-                            <span class="bp">self</span><span class="o">.</span><span class="n">send_word</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>  <span class="c1"># display word</span>
-                            <span class="c1"># set cursor pos to current - word length</span>
-                            <span class="c1"># make cursor visible?</span>
-                            <span class="c1"># iterate letters of word</span>
-                            <span class="c1"># play char</span>
-                            <span class="c1"># move cursor</span>
-                            <span class="c1"># if iteration var = word length: break | or try: except:?</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_send_message_with_cursor</span><span class="p">()</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_remaining_line_buffer</span> <span class="o">-=</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
                     <span class="k">else</span><span class="p">:</span>
-                        <span class="k">while</span> <span class="kc">True</span><span class="p">:</span>
-                            <span class="c1"># while True iterate number of letters</span>
-                            <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">word</span><span class="o">.</span><span class="n">split</span><span class="p">():</span>
-                                <span class="c1"># display letter</span>
-                                <span class="bp">self</span><span class="o">.</span><span class="n">send_character</span><span class="p">(</span><span class="n">char</span><span class="p">)</span>
-
-
-
-                    <span class="sd">&quot;&quot;&quot;if word:  # catch null characters</span>
-<span class="sd">                        self.lcd.message(self._screen_buffer[0])</span>
-<span class="sd">                    self._screen_buffer[0] = &#39;&#39;&quot;&quot;&quot;</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_send_message_without_cursor</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+                        <span class="bp">self</span><span class="o">.</span><span class="n">_remaining_line_buffer</span> <span class="o">-=</span> <span class="nb">len</span><span class="p">(</span><span class="n">word</span><span class="p">)</span>
+                <span class="k">return</span>
             <span class="k">except</span> <span class="ne">IndexError</span><span class="p">:</span>
                 <span class="k">break</span></div></div>
 
 
 <div class="viewcode-block" id="LcdScroll_CharLCD"><a class="viewcode-back" href="../../LcdScroll.html#LcdScroll.lcdscroll.LcdScroll_CharLCD">[docs]</a><span class="k">class</span> <span class="nc">LcdScroll_CharLCD</span><span class="p">(</span><span class="n">Adafruit_CharLCD</span><span class="o">.</span><span class="n">Adafruit_CharLCD</span><span class="p">,</span> <span class="n">LcdScroller</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wrapper Class for Adafruit_CharLCD to add Scrolling:</span>
+
+<span class="sd">    Class to represent and interact with an HD44780 character Lcd display.</span>
+
+<span class="sd">    Initialize the Lcd.  RS, EN, and D4...D7 parameters should be the pins</span>
+<span class="sd">    connected to the Lcd RS, clock enable, and data line 4 through 7 connections.</span>
+<span class="sd">    The Lcd will be used in its 4-bit mode so these 6 lines are the only ones</span>
+<span class="sd">    required to use the Lcd.  You must also pass in the number of columns and</span>
+<span class="sd">    lines on the Lcd.</span>
+<span class="sd">    If you would like to control the backlight, pass in the pin connected to</span>
+<span class="sd">    the backlight with the backlight parameter.  The invert_polarity boolean</span>
+<span class="sd">    controls if the backlight is one with a LOW signal or HIGH signal.  The</span>
+<span class="sd">    default invert_polarity value is True, i.e. the backlight is on with a</span>
+<span class="sd">    LOW signal.</span>
+<span class="sd">    You can enable PWM of the backlight pin to have finer control on the</span>
+<span class="sd">    brightness.  To enable PWM make sure your hardware supports PWM on the</span>
+<span class="sd">    provided backlight pin and set enable_pwm to True (the default is False).</span>
+<span class="sd">    The appropriate PWM library will be used depending on the platform, but</span>
+<span class="sd">    you can provide an explicit one with the pwm parameter.</span>
+<span class="sd">    The initial state of the backlight is ON, but you can set it to an</span>
+<span class="sd">    explicit initial state with the initial_backlight parameter (0 is off,</span>
+<span class="sd">    1 is on/full bright).</span>
+<span class="sd">    You can optionally pass in an explicit GPIO class,</span>
+<span class="sd">    for example if you want to use an MCP230xx GPIO extender.  If you don&#39;t</span>
+<span class="sd">    pass in an GPIO instance, the default GPIO for the running platform will</span>
+<span class="sd">    be used.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        rs (:obj:`int`): Pin Connection</span>
+<span class="sd">        en (:obj:`int`): Pin Connection</span>
+<span class="sd">        d4 (:obj:`int`): Pin Connection</span>
+<span class="sd">        d5 (:obj:`int`): Pin Connection</span>
+<span class="sd">        d6 (:obj:`int`): Pin Connection</span>
+<span class="sd">        d7 (:obj:`int`): Pin Connection</span>
+<span class="sd">        backlight (:obj:`int`): Backlight Pin Connection</span>
+<span class="sd">        initial_backlight (:obj:`bool`):</span>
+<span class="sd">        cols (:obj:`int`): Number of columns on display (default 16)</span>
+<span class="sd">        lines (:obj:`int`): Number of Lines on display (default 2)</span>
+<span class="sd">        gpio (:obj:`obj`, optional): Optional GPIO class</span>
+<span class="sd">        invert_polarity (:obj:`bool`): Backlight is on LOW(True) or HIGH(False)  (default True)</span>
+<span class="sd">        enable_pwm (:obj:`bool`): Option for finer control of backlight  (default False)</span>
+<span class="sd">        pwm  (:obj:`obj`, optional): Optional PWM class</span>
+<span class="sd">        direction (:obj:`int`): Direction of Scroll - LCDSCROLL_UP, LCDSCROLL_DOWN  (default DOWN)</span>
+<span class="sd">        cursor: Turn on the bouncing ball style cursor  (default False)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">lines</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cursor</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">direction</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="n">LCDSCROLL_DOWN</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            rs:</span>
-<span class="sd">            en:</span>
-<span class="sd">            d4:</span>
-<span class="sd">            d5:</span>
-<span class="sd">            d6:</span>
-<span class="sd">            d7:</span>
-<span class="sd">            cols:</span>
-<span class="sd">            lines:</span>
-<span class="sd">            backlight:</span>
-<span class="sd">            invert_polarity:</span>
-<span class="sd">            enable_pwm:</span>
-<span class="sd">            gpio:</span>
-<span class="sd">            pwm:</span>
-<span class="sd">            initial_backlight:</span>
-<span class="sd">            cursor:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-        <span class="n">LcdScroller</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="n">lines</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">direction</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span><span class="p">)</span></div>
+        <span class="n">LcdScroller</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="n">lines</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">direction</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="LcdScroll_CharLCDPlate"><a class="viewcode-back" href="../../LcdScroll.html#LcdScroll.lcdscroll.LcdScroll_CharLCDPlate">[docs]</a><span class="k">class</span> <span class="nc">LcdScroll_CharLCDPlate</span><span class="p">(</span><span class="n">Adafruit_CharLCD</span><span class="o">.</span><span class="n">Adafruit_CharLCDPlate</span><span class="p">,</span> <span class="n">LcdScroller</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wrapper Class for Adafruit_CharLCDPlate to add Scrolling:</span>
+
+<span class="sd">    Class to represent and interact with an Adafruit Raspberry Pi character</span>
+<span class="sd">    Lcd plate.</span>
+
+<span class="sd">    Initialize the character Lcd plate.  Can optionally specify a separate</span>
+<span class="sd">    I2C address or bus number, but the defaults should suffice for most needs.</span>
+<span class="sd">    Can also optionally specify the number of columns and lines on the Lcd</span>
+<span class="sd">    (default is 16x2).</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">            address (:obj:`hex`, optional): I2C address</span>
+<span class="sd">            busnum: (:obj:`int`, optional): I2C bus number</span>
+<span class="sd">            cols (:obj:`int`): Number of columns on display (default 16)</span>
+<span class="sd">            lines (:obj:`int`): Number of Lines on display (default 2)</span>
+<span class="sd">            direction (:obj:`int`): Direction of Scroll - LCDSCROLL_UP, LCDSCROLL_DOWN  (default LCDSCROLL_DOWN)</span>
+<span class="sd">            cursor: Turn on the bouncing ball style cursor  (default False)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">lines</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">cursor</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">direction</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="n">LCDSCROLL_DOWN</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            address:</span>
-<span class="sd">            busnum:</span>
-<span class="sd">            cols:</span>
-<span class="sd">            lines:</span>
-<span class="sd">            cursor:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-        <span class="n">LcdScroller</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="n">lines</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">direction</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span><span class="p">)</span></div>
+        <span class="n">LcdScroller</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="n">lines</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">direction</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="LcdScroll_RGBCharLCD"><a class="viewcode-back" href="../../LcdScroll.html#LcdScroll.lcdscroll.LcdScroll_RGBCharLCD">[docs]</a><span class="k">class</span> <span class="nc">LcdScroll_RGBCharLCD</span><span class="p">(</span><span class="n">Adafruit_CharLCD</span><span class="o">.</span><span class="n">Adafruit_RGBCharLCD</span><span class="p">,</span> <span class="n">LcdScroller</span><span class="p">):</span>
     <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Wrapper Class for Adafruit_RBGCharLCD to add Scrolling:</span>
+
+<span class="sd">    Class to represent and interact with an HD44780 character Lcd display with</span>
+<span class="sd">    an RGB backlight.</span>
+
+<span class="sd">    Initialize the Lcd with RGB backlight.  RS, EN, and D4...D7 parameters</span>
+<span class="sd">    should be the pins connected to the Lcd RS, clock enable, and data line</span>
+<span class="sd">    4 through 7 connections. The Lcd will be used in its 4-bit mode so these</span>
+<span class="sd">    6 lines are the only ones required to use the Lcd.  You must also pass in</span>
+<span class="sd">    the number of columns and lines on the Lcd.</span>
+<span class="sd">    The red, green, and blue parameters define the pins which are connected</span>
+<span class="sd">    to the appropriate backlight LEDs.  The invert_polarity parameter is a</span>
+<span class="sd">    boolean that controls if the LEDs are on with a LOW or HIGH signal.  By</span>
+<span class="sd">    default invert_polarity is True, i.e. the backlight LEDs are on with a</span>
+<span class="sd">    low signal.  If you want to enable PWM on the backlight LEDs (for finer</span>
+<span class="sd">    control of colors) and the hardware supports PWM on the provided pins,</span>
+<span class="sd">    set enable_pwm to True.  Finally you can set an explicit initial backlight</span>
+<span class="sd">    color with the initial_color parameter.  The default initial color is</span>
+<span class="sd">    white (all LEDs lit).</span>
+<span class="sd">    You can optionally pass in an explicit GPIO class,</span>
+<span class="sd">    for example if you want to use an MCP230xx GPIO extender.  If you don&#39;t</span>
+<span class="sd">    pass in an GPIO instance, the default GPIO for the running platform will</span>
+<span class="sd">    be used.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">            rs (:obj:`int`): Pin Connection</span>
+<span class="sd">            en (:obj:`int`): Pin Connection</span>
+<span class="sd">            d4 (:obj:`int`): Pin Connection</span>
+<span class="sd">            d5 (:obj:`int`): Pin Connection</span>
+<span class="sd">            d6 (:obj:`int`): Pin Connection</span>
+<span class="sd">            d7 (:obj:`int`): Pin Connection</span>
+<span class="sd">            cols (:obj:`int`): Number of columns on display (default 16)</span>
+<span class="sd">            lines (:obj:`int`): Number of Lines on display (default 2)</span>
+<span class="sd">            red (:obj:`int`): Pin Connection</span>
+<span class="sd">            green (:obj:`int`): Pin Connection</span>
+<span class="sd">            blue (:obj:`int`): Pin Connection</span>
+<span class="sd">            gpio (:obj:`obj`, optional): Optional GPIO class</span>
+<span class="sd">            invert_polarity (:obj:`bool`): LEDs are on LOW(True) or HIGH(False)  (default True)</span>
+<span class="sd">            enable_pwm (:obj:`bool`): Option for finer control of color  (default False)</span>
+<span class="sd">            pwm  (:obj:`obj`, optional): Optional PWM class</span>
+<span class="sd">            initial_color (:obj:`tuple`): Initial Color (Default (1.0, 1.0, 1.0)) (R, G, B)</span>
+<span class="sd">            direction (:obj:`int`): Direction of Scroll - LCDSCROLL_UP, LCDSCROLL_DOWN  (default DOWN)</span>
+<span class="sd">            cursor: Turn on the bouncing ball style cursor  (default False)</span>
 
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">lines</span><span class="p">:</span> <span class="nb">int</span><span class="p">,</span> <span class="n">cursor</span><span class="p">:</span> <span class="nb">bool</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span> <span class="n">direction</span><span class="p">:</span> <span class="nb">int</span><span class="o">=</span><span class="n">LCDSCROLL_DOWN</span><span class="p">,</span> <span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            rs:</span>
-<span class="sd">            en:</span>
-<span class="sd">            d4:</span>
-<span class="sd">            d5:</span>
-<span class="sd">            d6:</span>
-<span class="sd">            d7:</span>
-<span class="sd">            cols:</span>
-<span class="sd">            lines:</span>
-<span class="sd">            red:</span>
-<span class="sd">            green:</span>
-<span class="sd">            blue:</span>
-<span class="sd">            gpio:</span>
-<span class="sd">            invert_polarity:</span>
-<span class="sd">            enable_pwm:</span>
-<span class="sd">            pwm:</span>
-<span class="sd">            initial_color:</span>
-<span class="sd">            cursor:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
-
-        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span>
-
-        <span class="n">LcdScroller</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="n">lines</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">direction</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span><span class="p">)</span></div>
+        <span class="n">LcdScroller</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="n">cols</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="n">lines</span><span class="p">,</span> <span class="n">direction</span><span class="o">=</span><span class="n">direction</span><span class="p">,</span> <span class="n">cursor</span><span class="o">=</span><span class="n">cursor</span><span class="p">)</span>
+        <span class="nb">super</span><span class="p">()</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="o">*</span><span class="n">args</span><span class="p">,</span> <span class="o">**</span><span class="n">kwargs</span><span class="p">)</span></div>
 
 
 <div class="viewcode-block" id="LcdScrollEx"><a class="viewcode-back" href="../../LcdScroll.html#LcdScroll.lcdscroll.LcdScrollEx">[docs]</a><span class="k">class</span> <span class="nc">LcdScrollEx</span><span class="p">(</span><span class="ne">Exception</span><span class="p">):</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Internal Exception for Scroll Class</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">            message</span>
+
 <span class="sd">    &quot;&quot;&quot;</span>
     <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">message</span><span class="p">):</span>
-        <span class="sa">r</span><span class="sd">&quot;&quot;&quot;</span>
-
-<span class="sd">        Args:</span>
-<span class="sd">            message:</span>
-<span class="sd">        &quot;&quot;&quot;</span>
         <span class="ne">Exception</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">message</span> <span class="o">=</span> <span class="n">message</span></div>
-
 </pre></div>
 
            </div>

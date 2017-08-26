@@ -1,0 +1,625 @@
+
+
+<!DOCTYPE html>
+<!--[if IE 8]><html class="no-js lt-ie9" lang="en" > <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js" lang="en" > <!--<![endif]-->
+<head>
+  <meta charset="utf-8">
+  
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  
+  <title>Waxfruit_CharLCD.Waxfruit_CharLCD &mdash; LcdScroll 0.2.0 documentation</title>
+  
+
+  
+  
+  
+  
+
+  
+
+  
+  
+    
+
+  
+
+  
+  
+    <link rel="stylesheet" href="../../_static/css/theme.css" type="text/css" />
+  
+
+  
+
+  
+        <link rel="index" title="Index"
+              href="../../genindex.html"/>
+        <link rel="search" title="Search" href="../../search.html"/>
+    <link rel="top" title="LcdScroll 0.2.0 documentation" href="../../index.html"/>
+        <link rel="up" title="Module code" href="../index.html"/> 
+
+  
+  <script src="../../_static/js/modernizr.min.js"></script>
+
+</head>
+
+<body class="wy-body-for-nav" role="document">
+
+   
+  <div class="wy-grid-for-nav">
+
+    
+    <nav data-toggle="wy-nav-shift" class="wy-nav-side">
+      <div class="wy-side-scroll">
+        <div class="wy-side-nav-search">
+          
+
+          
+            <a href="../../index.html" class="icon icon-home"> LcdScroll
+          
+
+          
+          </a>
+
+          
+            
+            
+              <div class="version">
+                0.2.0
+              </div>
+            
+          
+
+          
+<div role="search">
+  <form id="rtd-search-form" class="wy-form" action="../../search.html" method="get">
+    <input type="text" name="q" placeholder="Search docs" />
+    <input type="hidden" name="check_keywords" value="yes" />
+    <input type="hidden" name="area" value="default" />
+  </form>
+</div>
+
+          
+        </div>
+
+        <div class="wy-menu wy-menu-vertical" data-spy="affix" role="navigation" aria-label="main navigation">
+          
+            
+            
+              
+            
+            
+              <p class="caption"><span class="caption-text">Contents:</span></p>
+<ul>
+<li class="toctree-l1"><a class="reference internal" href="../../LcdScroll.html">LcdScroll package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../Waxfruit_CharLCD.html">Waxfruit_CharLCD package</a></li>
+<li class="toctree-l1"><a class="reference internal" href="../../doc_example.html">Doc Example</a></li>
+</ul>
+
+            
+          
+        </div>
+      </div>
+    </nav>
+
+    <section data-toggle="wy-nav-shift" class="wy-nav-content-wrap">
+
+      
+      <nav class="wy-nav-top" role="navigation" aria-label="top navigation">
+        
+          <i data-toggle="wy-nav-top" class="fa fa-bars"></i>
+          <a href="../../index.html">LcdScroll</a>
+        
+      </nav>
+
+
+      
+      <div class="wy-nav-content">
+        <div class="rst-content">
+          
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+<div role="navigation" aria-label="breadcrumbs navigation">
+
+  <ul class="wy-breadcrumbs">
+    
+      <li><a href="../../index.html">Docs</a> &raquo;</li>
+        
+          <li><a href="../index.html">Module code</a> &raquo;</li>
+        
+      <li>Waxfruit_CharLCD.Waxfruit_CharLCD</li>
+    
+    
+      <li class="wy-breadcrumbs-aside">
+        
+            
+        
+      </li>
+    
+  </ul>
+
+  
+  <hr/>
+</div>
+          <div role="main" class="document" itemscope="itemscope" itemtype="http://schema.org/Article">
+           <div itemprop="articleBody">
+            
+  <h1>Source code for Waxfruit_CharLCD.Waxfruit_CharLCD</h1><div class="highlight"><pre>
+<span></span><span class="c1"># -*- coding: utf-8 -*-</span>
+<span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">Comments go here!!!</span>
+
+<span class="sd">PC Emulation for Adafruit_CharLCD</span>
+
+<span class="sd">:program: CERMMorse</span>
+<span class="sd">:file: Waxfruit_CharLCD</span>
+<span class="sd">:platform: Cross-Platform</span>
+<span class="sd">:synopsis: Change this text.</span>
+
+<span class="sd">.. moduleauthor:: James L. Key &lt;james@bluepenguinslutions.com&gt;</span>
+
+<span class="sd">.. py:currentmodule:: Waxfruit_CharLCD</span>
+
+<span class="sd">&quot;&quot;&quot;</span>
+
+<span class="c1"># Original File</span>
+<span class="c1"># Copyright (c) 2014 Adafruit Industries</span>
+<span class="c1"># Author: Tony DiCola</span>
+<span class="c1">#</span>
+<span class="c1"># Permission is hereby granted, free of charge, to any person obtaining a copy</span>
+<span class="c1"># of this software and associated documentation files (the &quot;Software&quot;), to deal</span>
+<span class="c1"># in the Software without restriction, including without limitation the rights</span>
+<span class="c1"># to use, copy, modify, merge, publish, distribute, sublicense, and/or sell</span>
+<span class="c1"># copies of the Software, and to permit persons to whom the Software is</span>
+<span class="c1"># furnished to do so, subject to the following conditions:</span>
+<span class="c1">#</span>
+<span class="c1"># The above copyright notice and this permission notice shall be included in</span>
+<span class="c1"># all copies or substantial portions of the Software.</span>
+<span class="c1">#</span>
+<span class="c1"># THE SOFTWARE IS PROVIDED &quot;AS IS&quot;, WITHOUT WARRANTY OF ANY KIND, EXPRESS OR</span>
+<span class="c1"># IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF MERCHANTABILITY,</span>
+<span class="c1"># FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT. IN NO EVENT SHALL THE</span>
+<span class="c1"># AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY CLAIM, DAMAGES OR OTHER</span>
+<span class="c1"># LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,</span>
+<span class="c1"># OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN</span>
+<span class="c1"># THE SOFTWARE.</span>
+<span class="kn">import</span> <span class="nn">time</span>
+
+<span class="c1"># Commands</span>
+<span class="n">LCD_CLEARDISPLAY</span> <span class="o">=</span> <span class="mh">0x01</span>
+<span class="n">LCD_RETURNHOME</span> <span class="o">=</span> <span class="mh">0x02</span>
+<span class="n">LCD_ENTRYMODESET</span> <span class="o">=</span> <span class="mh">0x04</span>
+<span class="n">LCD_DISPLAYCONTROL</span> <span class="o">=</span> <span class="mh">0x08</span>
+<span class="n">LCD_CURSORSHIFT</span> <span class="o">=</span> <span class="mh">0x10</span>
+<span class="n">LCD_FUNCTIONSET</span> <span class="o">=</span> <span class="mh">0x20</span>
+<span class="n">LCD_SETCGRAMADDR</span> <span class="o">=</span> <span class="mh">0x40</span>
+<span class="n">LCD_SETDDRAMADDR</span> <span class="o">=</span> <span class="mh">0x80</span>
+
+<span class="c1"># Entry flags</span>
+<span class="n">LCD_ENTRYRIGHT</span> <span class="o">=</span> <span class="mh">0x00</span>
+<span class="n">LCD_ENTRYLEFT</span> <span class="o">=</span> <span class="mh">0x02</span>
+<span class="n">LCD_ENTRYSHIFTINCREMENT</span> <span class="o">=</span> <span class="mh">0x01</span>
+<span class="n">LCD_ENTRYSHIFTDECREMENT</span> <span class="o">=</span> <span class="mh">0x00</span>
+
+<span class="c1"># Control flags</span>
+<span class="n">LCD_DISPLAYON</span> <span class="o">=</span> <span class="mh">0x04</span>
+<span class="n">LCD_DISPLAYOFF</span> <span class="o">=</span> <span class="mh">0x00</span>
+<span class="n">LCD_CURSORON</span> <span class="o">=</span> <span class="mh">0x02</span>
+<span class="n">LCD_CURSOROFF</span> <span class="o">=</span> <span class="mh">0x00</span>
+<span class="n">LCD_BLINKON</span> <span class="o">=</span> <span class="mh">0x01</span>
+<span class="n">LCD_BLINKOFF</span> <span class="o">=</span> <span class="mh">0x00</span>
+
+<span class="c1"># Move flags</span>
+<span class="n">LCD_DISPLAYMOVE</span> <span class="o">=</span> <span class="mh">0x08</span>
+<span class="n">LCD_CURSORMOVE</span> <span class="o">=</span> <span class="mh">0x00</span>
+<span class="n">LCD_MOVERIGHT</span> <span class="o">=</span> <span class="mh">0x04</span>
+<span class="n">LCD_MOVELEFT</span> <span class="o">=</span> <span class="mh">0x00</span>
+
+<span class="c1"># Function set flags</span>
+<span class="n">LCD_8BITMODE</span> <span class="o">=</span> <span class="mh">0x10</span>
+<span class="n">LCD_4BITMODE</span> <span class="o">=</span> <span class="mh">0x00</span>
+<span class="n">LCD_2LINE</span> <span class="o">=</span> <span class="mh">0x08</span>
+<span class="n">LCD_1LINE</span> <span class="o">=</span> <span class="mh">0x00</span>
+<span class="n">LCD_5x10DOTS</span> <span class="o">=</span> <span class="mh">0x04</span>
+<span class="n">LCD_5x8DOTS</span> <span class="o">=</span> <span class="mh">0x00</span>
+
+<span class="c1"># Offset for up to 4 rows.</span>
+<span class="n">LCD_ROW_OFFSETS</span> <span class="o">=</span> <span class="p">(</span><span class="mh">0x00</span><span class="p">,</span> <span class="mh">0x40</span><span class="p">,</span> <span class="mh">0x14</span><span class="p">,</span> <span class="mh">0x54</span><span class="p">)</span>
+
+<span class="c1"># Char Lcd plate GPIO numbers.</span>
+<span class="n">LCD_PLATE_RS</span> <span class="o">=</span> <span class="mi">15</span>
+<span class="n">LCD_PLATE_RW</span> <span class="o">=</span> <span class="mi">14</span>
+<span class="n">LCD_PLATE_EN</span> <span class="o">=</span> <span class="mi">13</span>
+<span class="n">LCD_PLATE_D4</span> <span class="o">=</span> <span class="mi">12</span>
+<span class="n">LCD_PLATE_D5</span> <span class="o">=</span> <span class="mi">11</span>
+<span class="n">LCD_PLATE_D6</span> <span class="o">=</span> <span class="mi">10</span>
+<span class="n">LCD_PLATE_D7</span> <span class="o">=</span> <span class="mi">9</span>
+<span class="n">LCD_PLATE_RED</span> <span class="o">=</span> <span class="mi">6</span>
+<span class="n">LCD_PLATE_GREEN</span> <span class="o">=</span> <span class="mi">7</span>
+<span class="n">LCD_PLATE_BLUE</span> <span class="o">=</span> <span class="mi">8</span>
+
+<span class="c1"># Char Lcd plate button names.</span>
+<span class="n">SELECT</span> <span class="o">=</span> <span class="mi">0</span>
+<span class="n">RIGHT</span> <span class="o">=</span> <span class="mi">1</span>
+<span class="n">DOWN</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">UP</span> <span class="o">=</span> <span class="mi">3</span>
+<span class="n">LEFT</span> <span class="o">=</span> <span class="mi">4</span>
+
+
+<div class="viewcode-block" id="Adafruit_CharLCD"><a class="viewcode-back" href="../../Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD">[docs]</a><span class="k">class</span> <span class="nc">Adafruit_CharLCD</span><span class="p">(</span><span class="nb">object</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class to represent and interact with an HD44780 character Lcd display.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rs</span><span class="p">,</span> <span class="n">en</span><span class="p">,</span> <span class="n">d4</span><span class="p">,</span> <span class="n">d5</span><span class="p">,</span> <span class="n">d6</span><span class="p">,</span> <span class="n">d7</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="n">backlight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                 <span class="n">invert_polarity</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">enable_pwm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">gpio</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+                 <span class="n">pwm</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+                 <span class="n">initial_backlight</span><span class="o">=</span><span class="mf">1.0</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the Lcd.  RS, EN, and D4...D7 parameters should be the pins</span>
+<span class="sd">        connected to the Lcd RS, clock enable, and data line 4 through 7 connections.</span>
+<span class="sd">        The Lcd will be used in its 4-bit mode so these 6 lines are the only ones</span>
+<span class="sd">        required to use the Lcd.  You must also pass in the number of columns and</span>
+<span class="sd">        lines on the Lcd.</span>
+<span class="sd">        If you would like to control the backlight, pass in the pin connected to</span>
+<span class="sd">        the backlight with the backlight parameter.  The invert_polarity boolean</span>
+<span class="sd">        controls if the backlight is one with a LOW signal or HIGH signal.  The</span>
+<span class="sd">        default invert_polarity value is True, i.e. the backlight is on with a</span>
+<span class="sd">        LOW signal.</span>
+<span class="sd">        You can enable PWM of the backlight pin to have finer control on the</span>
+<span class="sd">        brightness.  To enable PWM make sure your hardware supports PWM on the</span>
+<span class="sd">        provided backlight pin and set enable_pwm to True (the default is False).</span>
+<span class="sd">        The appropriate PWM library will be used depending on the platform, but</span>
+<span class="sd">        you can provide an explicit one with the pwm parameter.</span>
+<span class="sd">        The initial state of the backlight is ON, but you can set it to an</span>
+<span class="sd">        explicit initial state with the initial_backlight parameter (0 is off,</span>
+<span class="sd">        1 is on/full bright).</span>
+<span class="sd">        You can optionally pass in an explicit GPIO class,</span>
+<span class="sd">        for example if you want to use an MCP230xx GPIO extender.  If you don&#39;t</span>
+<span class="sd">        pass in an GPIO instance, the default GPIO for the running platform will</span>
+<span class="sd">        be used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Save column and line state.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_cols</span> <span class="o">=</span> <span class="n">cols</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_lines</span> <span class="o">=</span> <span class="n">lines</span>
+        <span class="c1"># Save GPIO state and pin numbers.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_gpio</span> <span class="o">=</span> <span class="n">gpio</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_rs</span> <span class="o">=</span> <span class="n">rs</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_en</span> <span class="o">=</span> <span class="n">en</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_d4</span> <span class="o">=</span> <span class="n">d4</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_d5</span> <span class="o">=</span> <span class="n">d5</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_d6</span> <span class="o">=</span> <span class="n">d6</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_d7</span> <span class="o">=</span> <span class="n">d7</span>
+        <span class="c1"># Save backlight state.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_backlight</span> <span class="o">=</span> <span class="n">backlight</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pwm_enabled</span> <span class="o">=</span> <span class="n">enable_pwm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_pwm</span> <span class="o">=</span> <span class="n">pwm</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_blpol</span> <span class="o">=</span> <span class="ow">not</span> <span class="n">invert_polarity</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">displaycontrol</span> <span class="o">=</span> <span class="n">LCD_DISPLAYON</span> <span class="o">|</span> <span class="n">LCD_CURSOROFF</span> <span class="o">|</span> <span class="n">LCD_BLINKOFF</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">displayfunction</span> <span class="o">=</span> <span class="n">LCD_4BITMODE</span> <span class="o">|</span> <span class="n">LCD_1LINE</span> <span class="o">|</span> <span class="n">LCD_2LINE</span> <span class="o">|</span> <span class="n">LCD_5x8DOTS</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">displaymode</span> <span class="o">=</span> <span class="n">LCD_ENTRYLEFT</span> <span class="o">|</span> <span class="n">LCD_ENTRYSHIFTDECREMENT</span>
+
+<div class="viewcode-block" id="Adafruit_CharLCD.home"><a class="viewcode-back" href="../../Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD.home">[docs]</a>    <span class="k">def</span> <span class="nf">home</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Move the cursor back to its home (first line and first column).&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Cursor to Home.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Adafruit_CharLCD.clear"><a class="viewcode-back" href="../../Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Clear the Lcd.&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Clear display.</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Adafruit_CharLCD.set_cursor"><a class="viewcode-back" href="../../Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD.set_cursor">[docs]</a>    <span class="k">def</span> <span class="nf">set_cursor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">col</span><span class="p">,</span> <span class="n">row</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Move the cursor to an explicit column and row position.&quot;&quot;&quot;</span>
+        <span class="c1"># Clamp row to the last row of the display.</span>
+        <span class="k">if</span> <span class="n">row</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lines</span><span class="p">:</span>
+            <span class="n">row</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_lines</span> <span class="o">-</span> <span class="mi">1</span>
+        <span class="c1"># Set location.</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Move cursor to &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">col</span><span class="p">)</span> <span class="o">+</span> <span class="s1">&#39; &#39;</span> <span class="o">+</span> <span class="nb">str</span><span class="p">(</span><span class="n">row</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Adafruit_CharLCD.enable_display"><a class="viewcode-back" href="../../Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD.enable_display">[docs]</a>    <span class="k">def</span> <span class="nf">enable_display</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">enable</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Enable or disable the display.  Set enable to True to enable.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">enable</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Enable Display&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Disable Display&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Adafruit_CharLCD.show_cursor"><a class="viewcode-back" href="../../Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD.show_cursor">[docs]</a>    <span class="k">def</span> <span class="nf">show_cursor</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">show</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Show or hide the cursor.  Cursor is shown if show is True.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">show</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Cursor Visible&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Cursor Invisible&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Adafruit_CharLCD.blink"><a class="viewcode-back" href="../../Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD.blink">[docs]</a>    <span class="k">def</span> <span class="nf">blink</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">blink</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Turn on or off cursor blinking.  Set blink to True to enable blinking.&quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">blink</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Blink Cursor&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Stop Cursor Blink&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Adafruit_CharLCD.move_left"><a class="viewcode-back" href="../../Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD.move_left">[docs]</a>    <span class="k">def</span> <span class="nf">move_left</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Move display left one position.&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Cursor Left&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Adafruit_CharLCD.move_right"><a class="viewcode-back" href="../../Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD.move_right">[docs]</a>    <span class="k">def</span> <span class="nf">move_right</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Move display right one position.&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Cursor Right&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Adafruit_CharLCD.set_left_to_right"><a class="viewcode-back" href="../../Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD.set_left_to_right">[docs]</a>    <span class="k">def</span> <span class="nf">set_left_to_right</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set text direction left to right.&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Text Direction Left to Right&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Adafruit_CharLCD.set_right_to_left"><a class="viewcode-back" href="../../Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD.set_right_to_left">[docs]</a>    <span class="k">def</span> <span class="nf">set_right_to_left</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set text direction right to left.&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Text Direction Right to Left&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Adafruit_CharLCD.autoscroll"><a class="viewcode-back" href="../../Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD.autoscroll">[docs]</a>    <span class="k">def</span> <span class="nf">autoscroll</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">autoscroll</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Autoscroll will &#39;right justify&#39; text from the cursor if set True,</span>
+<span class="sd">        otherwise it will &#39;left justify&#39; the text.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="n">autoscroll</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Autoscroll Enabled&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Autoscroll Disabled&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Adafruit_CharLCD.message"><a class="viewcode-back" href="../../Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD.message">[docs]</a>    <span class="k">def</span> <span class="nf">message</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">text</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Write text to display.  Note that text can include newlines.&quot;&quot;&quot;</span>
+        <span class="n">line</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="c1"># Iterate through each character.</span>
+        <span class="k">for</span> <span class="n">char</span> <span class="ow">in</span> <span class="n">text</span><span class="p">:</span>
+            <span class="c1"># Advance to next line if character is a new line.</span>
+            <span class="k">if</span> <span class="n">char</span> <span class="o">==</span> <span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">:</span>
+                <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;</span><span class="se">\n</span><span class="s1">&#39;</span><span class="p">)</span>
+                <span class="c1"># Move to left or right side depending on text direction.</span>
+                <span class="n">col</span> <span class="o">=</span> <span class="mi">0</span> <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">displaymode</span> <span class="o">&amp;</span> <span class="n">LCD_ENTRYLEFT</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="k">else</span> <span class="bp">self</span><span class="o">.</span><span class="n">_cols</span> <span class="o">-</span> <span class="mi">1</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">set_cursor</span><span class="p">(</span><span class="n">col</span><span class="p">,</span> <span class="n">line</span><span class="p">)</span>
+            <span class="c1"># Write the character to the display.</span>
+            <span class="k">else</span><span class="p">:</span>
+                <span class="bp">self</span><span class="o">.</span><span class="n">write8</span><span class="p">(</span><span class="nb">ord</span><span class="p">(</span><span class="n">char</span><span class="p">),</span> <span class="kc">True</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Adafruit_CharLCD.set_backlight"><a class="viewcode-back" href="../../Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD.set_backlight">[docs]</a>    <span class="k">def</span> <span class="nf">set_backlight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backlight</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Enable or disable the backlight.  If PWM is not enabled (default), a</span>
+<span class="sd">        non-zero backlight value will turn on the backlight and a zero value will</span>
+<span class="sd">        turn it off.  If PWM is enabled, backlight can be any value from 0.0 to</span>
+<span class="sd">        1.0, with 1.0 being full intensity backlight.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">_backlight</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Backlight ON&#39;</span><span class="p">)</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Backlight OFF&#39;</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Adafruit_CharLCD.write8"><a class="viewcode-back" href="../../Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD.write8">[docs]</a>    <span class="k">def</span> <span class="nf">write8</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">value</span><span class="p">,</span> <span class="n">char_mode</span><span class="o">=</span><span class="kc">False</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Write 8-bit value in character or data mode.  Value should be an int</span>
+<span class="sd">        value from 0-255, and char_mode is True if character data or False if</span>
+<span class="sd">        non-character data (default).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># One millisecond delay to prevent writing too quickly.</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_delay_microseconds</span><span class="p">(</span><span class="mi">1000</span><span class="p">)</span>
+        <span class="c1"># Set character / data bit.</span>
+
+        <span class="k">if</span> <span class="n">char_mode</span> <span class="ow">is</span> <span class="kc">True</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">value</span><span class="p">))</span>
+        <span class="k">else</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="nb">hex</span><span class="p">(</span><span class="n">value</span><span class="p">))</span></div>
+
+<div class="viewcode-block" id="Adafruit_CharLCD.create_char"><a class="viewcode-back" href="../../Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD.create_char">[docs]</a>    <span class="k">def</span> <span class="nf">create_char</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">location</span><span class="p">,</span> <span class="n">pattern</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Fill one of the first 8 CGRAM locations with custom characters.</span>
+<span class="sd">        The location parameter should be between 0 and 7 and pattern should</span>
+<span class="sd">        provide an array of 8 bytes containing the pattern. E.g. you can easyly</span>
+<span class="sd">        design your custom character at http://www.quinapalus.com/hd44780udg.html</span>
+<span class="sd">        To show your custom character use eg. lcd.message(&#39;\x01&#39;)</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># only position 0..7 are allowed</span>
+        <span class="n">location</span> <span class="o">&amp;=</span> <span class="mh">0x7</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">write8</span><span class="p">(</span><span class="n">LCD_SETCGRAMADDR</span> <span class="o">|</span> <span class="p">(</span><span class="n">location</span> <span class="o">&lt;&lt;</span> <span class="mi">3</span><span class="p">))</span>
+        <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">8</span><span class="p">):</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">write8</span><span class="p">(</span><span class="n">pattern</span><span class="p">[</span><span class="n">i</span><span class="p">],</span> <span class="n">char_mode</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span></div>
+
+    <span class="k">def</span> <span class="nf">_delay_microseconds</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">microseconds</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            microseconds:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Busy wait in loop because delays are generally very short (few microseconds).</span>
+        <span class="n">end</span> <span class="o">=</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">+</span> <span class="p">(</span><span class="n">microseconds</span> <span class="o">/</span> <span class="mf">1000000.0</span><span class="p">)</span>
+        <span class="k">while</span> <span class="n">time</span><span class="o">.</span><span class="n">time</span><span class="p">()</span> <span class="o">&lt;</span> <span class="n">end</span><span class="p">:</span>
+            <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">_pulse_enable</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Pulse the clock enable line off, on, off to send command.</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">_pwm_duty_cycle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">intensity</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            intensity:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Convert intensity value of 0.0 to 1.0 to a duty cycle of 0.0 to 100.0</span>
+        <span class="k">pass</span></div>
+
+
+<div class="viewcode-block" id="Adafruit_RGBCharLCD"><a class="viewcode-back" href="../../Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_RGBCharLCD">[docs]</a><span class="k">class</span> <span class="nc">Adafruit_RGBCharLCD</span><span class="p">(</span><span class="n">Adafruit_CharLCD</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class to represent and interact with an HD44780 character Lcd display with</span>
+<span class="sd">    an RGB backlight.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rs</span><span class="p">,</span> <span class="n">en</span><span class="p">,</span> <span class="n">d4</span><span class="p">,</span> <span class="n">d5</span><span class="p">,</span> <span class="n">d6</span><span class="p">,</span> <span class="n">d7</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span> <span class="n">red</span><span class="p">,</span> <span class="n">green</span><span class="p">,</span> <span class="n">blue</span><span class="p">,</span>
+                 <span class="n">gpio</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+                 <span class="n">invert_polarity</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span>
+                 <span class="n">enable_pwm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                 <span class="n">pwm</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span>
+                 <span class="n">initial_color</span><span class="o">=</span><span class="p">(</span><span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">)):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the Lcd with RGB backlight.  RS, EN, and D4...D7 parameters</span>
+<span class="sd">        should be the pins connected to the Lcd RS, clock enable, and data line</span>
+<span class="sd">        4 through 7 connections. The Lcd will be used in its 4-bit mode so these</span>
+<span class="sd">        6 lines are the only ones required to use the Lcd.  You must also pass in</span>
+<span class="sd">        the number of columns and lines on the Lcd.</span>
+<span class="sd">        The red, green, and blue parameters define the pins which are connected</span>
+<span class="sd">        to the appropriate backlight LEDs.  The invert_polarity parameter is a</span>
+<span class="sd">        boolean that controls if the LEDs are on with a LOW or HIGH signal.  By</span>
+<span class="sd">        default invert_polarity is True, i.e. the backlight LEDs are on with a</span>
+<span class="sd">        low signal.  If you want to enable PWM on the backlight LEDs (for finer</span>
+<span class="sd">        control of colors) and the hardware supports PWM on the provided pins,</span>
+<span class="sd">        set enable_pwm to True.  Finally you can set an explicit initial backlight</span>
+<span class="sd">        color with the initial_color parameter.  The default initial color is</span>
+<span class="sd">        white (all LEDs lit).</span>
+<span class="sd">        You can optionally pass in an explicit GPIO class,</span>
+<span class="sd">        for example if you want to use an MCP230xx GPIO extender.  If you don&#39;t</span>
+<span class="sd">        pass in an GPIO instance, the default GPIO for the running platform will</span>
+<span class="sd">        be used.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Adafruit_RGBCharLCD</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">rs</span><span class="p">,</span> <span class="n">en</span><span class="p">,</span> <span class="n">d4</span><span class="p">,</span> <span class="n">d5</span><span class="p">,</span> <span class="n">d6</span><span class="p">,</span> <span class="n">d7</span><span class="p">,</span>
+                                                  <span class="n">cols</span><span class="p">,</span>
+                                                  <span class="n">lines</span><span class="p">,</span>
+                                                  <span class="n">enable_pwm</span><span class="o">=</span><span class="n">enable_pwm</span><span class="p">,</span>
+                                                  <span class="n">backlight</span><span class="o">=</span><span class="kc">None</span><span class="p">,</span>
+                                                  <span class="n">invert_polarity</span><span class="o">=</span><span class="n">invert_polarity</span><span class="p">,</span>
+                                                  <span class="n">gpio</span><span class="o">=</span><span class="n">gpio</span><span class="p">,</span>
+                                                  <span class="n">pwm</span><span class="o">=</span><span class="n">pwm</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_red</span> <span class="o">=</span> <span class="n">red</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_green</span> <span class="o">=</span> <span class="n">green</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_blue</span> <span class="o">=</span> <span class="n">blue</span>
+        <span class="c1"># Setup backlight pins.</span>
+
+    <span class="k">def</span> <span class="nf">_rgb_to_duty_cycle</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rgb</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            rgb:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Convert tuple of RGB 0-1 values to tuple of duty cycles (0-100).</span>
+        <span class="k">pass</span>
+
+    <span class="k">def</span> <span class="nf">_rgb_to_pins</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">rgb</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;</span>
+
+<span class="sd">        Args:</span>
+<span class="sd">            rgb:</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Convert tuple of RGB 0-1 values to dict of pin values.</span>
+        <span class="k">pass</span>
+
+<div class="viewcode-block" id="Adafruit_RGBCharLCD.set_color"><a class="viewcode-back" href="../../Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_RGBCharLCD.set_color">[docs]</a>    <span class="k">def</span> <span class="nf">set_color</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">red</span><span class="p">,</span> <span class="n">green</span><span class="p">,</span> <span class="n">blue</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Set backlight color to provided red, green, and blue values.  If PWM</span>
+<span class="sd">        is enabled then color components can be values from 0.0 to 1.0, otherwise</span>
+<span class="sd">        components should be zero for off and non-zero for on.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="n">red</span><span class="p">,</span> <span class="n">green</span><span class="p">,</span> <span class="n">blue</span><span class="p">)</span></div>
+
+<div class="viewcode-block" id="Adafruit_RGBCharLCD.set_backlight"><a class="viewcode-back" href="../../Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_RGBCharLCD.set_backlight">[docs]</a>    <span class="k">def</span> <span class="nf">set_backlight</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">backlight</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Enable or disable the backlight.  If PWM is not enabled (default), a</span>
+<span class="sd">        non-zero backlight value will turn on the backlight and a zero value will</span>
+<span class="sd">        turn it off.  If PWM is enabled, backlight can be any value from 0.0 to</span>
+<span class="sd">        1.0, with 1.0 being full intensity backlight.  On an RGB display this</span>
+<span class="sd">        function will set the backlight to all white.</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">set_color</span><span class="p">(</span><span class="n">backlight</span><span class="p">,</span> <span class="n">backlight</span><span class="p">,</span> <span class="n">backlight</span><span class="p">)</span></div></div>
+
+
+<div class="viewcode-block" id="Adafruit_CharLCDPlate"><a class="viewcode-back" href="../../Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCDPlate">[docs]</a><span class="k">class</span> <span class="nc">Adafruit_CharLCDPlate</span><span class="p">(</span><span class="n">Adafruit_RGBCharLCD</span><span class="p">):</span>
+    <span class="sd">&quot;&quot;&quot;Class to represent and interact with an Adafruit Raspberry Pi character</span>
+<span class="sd">    Lcd plate.&quot;&quot;&quot;</span>
+
+    <span class="k">def</span> <span class="nf">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">address</span><span class="o">=</span><span class="mh">0x20</span><span class="p">,</span> <span class="n">busnum</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">,</span> <span class="n">cols</span><span class="o">=</span><span class="mi">16</span><span class="p">,</span> <span class="n">lines</span><span class="o">=</span><span class="mi">2</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Initialize the character Lcd plate.  Can optionally specify a separate</span>
+<span class="sd">        I2C address or bus number, but the defaults should suffice for most needs.</span>
+<span class="sd">        Can also optionally specify the number of columns and lines on the Lcd</span>
+<span class="sd">        (default is 16x2).</span>
+<span class="sd">        &quot;&quot;&quot;</span>
+        <span class="c1"># Configure MCP23017 device.</span>
+
+        <span class="c1"># Set Lcd R/W pin to low for writing only.</span>
+
+        <span class="c1"># Set buttons as inputs with pull-ups enabled.</span>
+
+        <span class="c1"># Initialize Lcd (with no PWM support).</span>
+        <span class="nb">super</span><span class="p">(</span><span class="n">Adafruit_CharLCDPlate</span><span class="p">,</span> <span class="bp">self</span><span class="p">)</span><span class="o">.</span><span class="fm">__init__</span><span class="p">(</span><span class="n">LCD_PLATE_RS</span><span class="p">,</span> <span class="n">LCD_PLATE_EN</span><span class="p">,</span>
+                                                    <span class="n">LCD_PLATE_D4</span><span class="p">,</span> <span class="n">LCD_PLATE_D5</span><span class="p">,</span> <span class="n">LCD_PLATE_D6</span><span class="p">,</span> <span class="n">LCD_PLATE_D7</span><span class="p">,</span> <span class="n">cols</span><span class="p">,</span> <span class="n">lines</span><span class="p">,</span>
+                                                    <span class="n">LCD_PLATE_RED</span><span class="p">,</span> <span class="n">LCD_PLATE_GREEN</span><span class="p">,</span> <span class="n">LCD_PLATE_BLUE</span><span class="p">,</span> <span class="n">enable_pwm</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
+                                                    <span class="n">gpio</span><span class="o">=</span><span class="s1">&#39;&#39;</span><span class="p">)</span>
+
+<div class="viewcode-block" id="Adafruit_CharLCDPlate.is_pressed"><a class="viewcode-back" href="../../Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCDPlate.is_pressed">[docs]</a>    <span class="k">def</span> <span class="nf">is_pressed</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">button</span><span class="p">):</span>
+        <span class="sd">&quot;&quot;&quot;Return True if the provided button is pressed, False otherwise.&quot;&quot;&quot;</span>
+        <span class="nb">print</span><span class="p">(</span><span class="s1">&#39;Checking Button&#39;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="mi">1</span></div></div>
+</pre></div>
+
+           </div>
+           <div class="articleComments">
+            
+           </div>
+          </div>
+          <footer>
+  
+
+  <hr/>
+
+  <div role="contentinfo">
+    <p>
+        &copy; Copyright 2017, James L. Key.
+
+    </p>
+  </div>
+  Built with <a href="http://sphinx-doc.org/">Sphinx</a> using a <a href="https://github.com/snide/sphinx_rtd_theme">theme</a> provided by <a href="https://readthedocs.org">Read the Docs</a>. 
+
+</footer>
+
+        </div>
+      </div>
+
+    </section>
+
+  </div>
+  
+
+
+  
+
+    <script type="text/javascript">
+        var DOCUMENTATION_OPTIONS = {
+            URL_ROOT:'../../',
+            VERSION:'0.2.0',
+            COLLAPSE_INDEX:false,
+            FILE_SUFFIX:'.html',
+            HAS_SOURCE:  true,
+            SOURCELINK_SUFFIX: '.txt'
+        };
+    </script>
+      <script type="text/javascript" src="../../_static/jquery.js"></script>
+      <script type="text/javascript" src="../../_static/underscore.js"></script>
+      <script type="text/javascript" src="../../_static/doctools.js"></script>
+
+  
+
+  
+  
+    <script type="text/javascript" src="../../_static/js/theme.js"></script>
+  
+
+  
+  
+  <script type="text/javascript">
+      jQuery(function () {
+          SphinxRtdTheme.StickyNav.enable();
+      });
+  </script>
+   
+
+</body>
+</html>

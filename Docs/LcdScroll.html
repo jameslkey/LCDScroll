@@ -562,24 +562,154 @@ on the first line, separated by a colon.</p>
 <em class="property">exception </em><code class="descclassname">LcdScroll.lcdscroll.</code><code class="descname">LcdScrollEx</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LcdScroll/lcdscroll.html#LcdScrollEx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LcdScroll.lcdscroll.LcdScrollEx" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
 <p>Internal Exception for Scroll Class</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>message</strong> – </td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
 <dt id="LcdScroll.lcdscroll.LcdScroll_CharLCD">
 <em class="property">class </em><code class="descclassname">LcdScroll.lcdscroll.</code><code class="descname">LcdScroll_CharLCD</code><span class="sig-paren">(</span><em>cols</em>, <em>lines</em>, <em>cursor=False</em>, <em>direction=0</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LcdScroll/lcdscroll.html#LcdScroll_CharLCD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LcdScroll.lcdscroll.LcdScroll_CharLCD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD" title="Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD"><code class="xref py py-class docutils literal"><span class="pre">Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD</span></code></a>, <a class="reference internal" href="#LcdScroll.lcdscroll.LcdScroller" title="LcdScroll.lcdscroll.LcdScroller"><code class="xref py py-class docutils literal"><span class="pre">LcdScroll.lcdscroll.LcdScroller</span></code></a></p>
+<p>Wrapper Class for Adafruit_CharLCD to add Scrolling:</p>
+<p>Class to represent and interact with an HD44780 character Lcd display.</p>
+<p>Initialize the Lcd.  RS, EN, and D4…D7 parameters should be the pins
+connected to the Lcd RS, clock enable, and data line 4 through 7 connections.
+The Lcd will be used in its 4-bit mode so these 6 lines are the only ones
+required to use the Lcd.  You must also pass in the number of columns and
+lines on the Lcd.
+If you would like to control the backlight, pass in the pin connected to
+the backlight with the backlight parameter.  The invert_polarity boolean
+controls if the backlight is one with a LOW signal or HIGH signal.  The
+default invert_polarity value is True, i.e. the backlight is on with a
+LOW signal.
+You can enable PWM of the backlight pin to have finer control on the
+brightness.  To enable PWM make sure your hardware supports PWM on the
+provided backlight pin and set enable_pwm to True (the default is False).
+The appropriate PWM library will be used depending on the platform, but
+you can provide an explicit one with the pwm parameter.
+The initial state of the backlight is ON, but you can set it to an
+explicit initial state with the initial_backlight parameter (0 is off,
+1 is on/full bright).
+You can optionally pass in an explicit GPIO class,
+for example if you want to use an MCP230xx GPIO extender.  If you don’t
+pass in an GPIO instance, the default GPIO for the running platform will
+be used.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>rs</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>en</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>d4</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>d5</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>d6</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>d7</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>backlight</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Backlight Pin Connection</li>
+<li><strong>initial_backlight</strong> (<code class="xref py py-obj docutils literal"><span class="pre">bool</span></code>) – </li>
+<li><strong>cols</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Number of columns on display (default 16)</li>
+<li><strong>lines</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Number of Lines on display (default 2)</li>
+<li><strong>gpio</strong> (<code class="xref py py-obj docutils literal"><span class="pre">obj</span></code>, optional) – Optional GPIO class</li>
+<li><strong>invert_polarity</strong> (<code class="xref py py-obj docutils literal"><span class="pre">bool</span></code>) – Backlight is on LOW(True) or HIGH(False)  (default True)</li>
+<li><strong>enable_pwm</strong> (<code class="xref py py-obj docutils literal"><span class="pre">bool</span></code>) – Option for finer control of backlight  (default False)</li>
+<li><strong>pwm</strong> (<code class="xref py py-obj docutils literal"><span class="pre">obj</span></code>, optional) – Optional PWM class</li>
+<li><strong>direction</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Direction of Scroll - LCDSCROLL_UP, LCDSCROLL_DOWN  (default DOWN)</li>
+<li><strong>cursor</strong> (<code class="xref py py-class docutils literal"><span class="pre">bool</span></code>) – Turn on the bouncing ball style cursor  (default False)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
 <dt id="LcdScroll.lcdscroll.LcdScroll_CharLCDPlate">
 <em class="property">class </em><code class="descclassname">LcdScroll.lcdscroll.</code><code class="descname">LcdScroll_CharLCDPlate</code><span class="sig-paren">(</span><em>cols=16</em>, <em>lines=2</em>, <em>cursor=False</em>, <em>direction=0</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LcdScroll/lcdscroll.html#LcdScroll_CharLCDPlate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LcdScroll.lcdscroll.LcdScroll_CharLCDPlate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCDPlate" title="Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCDPlate"><code class="xref py py-class docutils literal"><span class="pre">Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCDPlate</span></code></a>, <a class="reference internal" href="#LcdScroll.lcdscroll.LcdScroller" title="LcdScroll.lcdscroll.LcdScroller"><code class="xref py py-class docutils literal"><span class="pre">LcdScroll.lcdscroll.LcdScroller</span></code></a></p>
+<p>Wrapper Class for Adafruit_CharLCDPlate to add Scrolling:</p>
+<p>Class to represent and interact with an Adafruit Raspberry Pi character
+Lcd plate.</p>
+<p>Initialize the character Lcd plate.  Can optionally specify a separate
+I2C address or bus number, but the defaults should suffice for most needs.
+Can also optionally specify the number of columns and lines on the Lcd
+(default is 16x2).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>address</strong> (<code class="xref py py-obj docutils literal"><span class="pre">hex</span></code>, optional) – I2C address</li>
+<li><strong>busnum</strong> – (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>, optional): I2C bus number</li>
+<li><strong>cols</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Number of columns on display (default 16)</li>
+<li><strong>lines</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Number of Lines on display (default 2)</li>
+<li><strong>direction</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Direction of Scroll - LCDSCROLL_UP, LCDSCROLL_DOWN  (default LCDSCROLL_DOWN)</li>
+<li><strong>cursor</strong> (<code class="xref py py-class docutils literal"><span class="pre">bool</span></code>) – Turn on the bouncing ball style cursor  (default False)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
 <dt id="LcdScroll.lcdscroll.LcdScroll_RGBCharLCD">
 <em class="property">class </em><code class="descclassname">LcdScroll.lcdscroll.</code><code class="descname">LcdScroll_RGBCharLCD</code><span class="sig-paren">(</span><em>cols</em>, <em>lines</em>, <em>cursor=False</em>, <em>direction=0</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LcdScroll/lcdscroll.html#LcdScroll_RGBCharLCD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LcdScroll.lcdscroll.LcdScroll_RGBCharLCD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_RGBCharLCD" title="Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_RGBCharLCD"><code class="xref py py-class docutils literal"><span class="pre">Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_RGBCharLCD</span></code></a>, <a class="reference internal" href="#LcdScroll.lcdscroll.LcdScroller" title="LcdScroll.lcdscroll.LcdScroller"><code class="xref py py-class docutils literal"><span class="pre">LcdScroll.lcdscroll.LcdScroller</span></code></a></p>
+<p>Wrapper Class for Adafruit_RBGCharLCD to add Scrolling:</p>
+<p>Class to represent and interact with an HD44780 character Lcd display with
+an RGB backlight.</p>
+<p>Initialize the Lcd with RGB backlight.  RS, EN, and D4…D7 parameters
+should be the pins connected to the Lcd RS, clock enable, and data line
+4 through 7 connections. The Lcd will be used in its 4-bit mode so these
+6 lines are the only ones required to use the Lcd.  You must also pass in
+the number of columns and lines on the Lcd.
+The red, green, and blue parameters define the pins which are connected
+to the appropriate backlight LEDs.  The invert_polarity parameter is a
+boolean that controls if the LEDs are on with a LOW or HIGH signal.  By
+default invert_polarity is True, i.e. the backlight LEDs are on with a
+low signal.  If you want to enable PWM on the backlight LEDs (for finer
+control of colors) and the hardware supports PWM on the provided pins,
+set enable_pwm to True.  Finally you can set an explicit initial backlight
+color with the initial_color parameter.  The default initial color is
+white (all LEDs lit).
+You can optionally pass in an explicit GPIO class,
+for example if you want to use an MCP230xx GPIO extender.  If you don’t
+pass in an GPIO instance, the default GPIO for the running platform will
+be used.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>rs</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>en</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>d4</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>d5</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>d6</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>d7</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>cols</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Number of columns on display (default 16)</li>
+<li><strong>lines</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Number of Lines on display (default 2)</li>
+<li><strong>red</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>green</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>blue</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>gpio</strong> (<code class="xref py py-obj docutils literal"><span class="pre">obj</span></code>, optional) – Optional GPIO class</li>
+<li><strong>invert_polarity</strong> (<code class="xref py py-obj docutils literal"><span class="pre">bool</span></code>) – LEDs are on LOW(True) or HIGH(False)  (default True)</li>
+<li><strong>enable_pwm</strong> (<code class="xref py py-obj docutils literal"><span class="pre">bool</span></code>) – Option for finer control of color  (default False)</li>
+<li><strong>pwm</strong> (<code class="xref py py-obj docutils literal"><span class="pre">obj</span></code>, optional) – Optional PWM class</li>
+<li><strong>initial_color</strong> (<code class="xref py py-obj docutils literal"><span class="pre">tuple</span></code>) – Initial Color (Default (1.0, 1.0, 1.0)) (R, G, B)</li>
+<li><strong>direction</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Direction of Scroll - LCDSCROLL_UP, LCDSCROLL_DOWN  (default DOWN)</li>
+<li><strong>cursor</strong> (<code class="xref py py-class docutils literal"><span class="pre">bool</span></code>) – Turn on the bouncing ball style cursor  (default False)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
@@ -605,7 +735,7 @@ in a sing along.</p>
 <li><strong>cols</strong> (<code class="xref py py-class docutils literal"><span class="pre">int</span></code>) – (int, optional): Number of columns on display</li>
 <li><strong>lines</strong> (<code class="xref py py-class docutils literal"><span class="pre">int</span></code>) – (int, optional): Number of line on display</li>
 <li><strong>cursor</strong> (<code class="xref py py-class docutils literal"><span class="pre">bool</span></code>) – (bool, optional): True or False, enable bouncing ball style cursor</li>
-<li><strong>direction</strong> (<code class="xref py py-class docutils literal"><span class="pre">int</span></code>) – </li>
+<li><strong>direction</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Direction of Scroll - LCDSCROLL_UP, LCDSCROLL_DOWN  (default DOWN)</li>
 </ul>
 </td>
 </tr>
@@ -683,7 +813,27 @@ To be overridden by derived classes to add functionality.</p>
 <dl class="attribute">
 <dt id="LcdScroll.lcdscroll.LcdScroller.special_characters">
 <code class="descname">special_characters</code><a class="headerlink" href="#LcdScroll.lcdscroll.LcdScroller.special_characters" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
+<dd><p><em>Property</em> – List of special characters that need special handling</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Getter:</th><td class="field-body">Get LcdScroll.special_characters property</td>
+</tr>
+<tr class="field-even field"><th class="field-name" colspan="2">Setter (Dictionary):</th></tr>
+<tr class="field-even field"><td>&#160;</td><td class="field-body">Set LcdScroll.special_characters property</td>
+</tr>
+</tbody>
+</table>
+<p>Example:</p>
+<div class="highlight-default"><div class="highlight"><pre><span></span><span class="n">spec_char</span> <span class="o">=</span> <span class="n">LcdScroll</span><span class="o">.</span><span class="n">special_characters</span><span class="p">()</span>
+
+<span class="n">LcdScroll</span><span class="o">.</span><span class="n">special_characters</span><span class="p">({</span><span class="s1">&#39;\u00B&#39;</span><span class="p">:</span> <span class="s1">&#39;</span><span class="se">\x00</span><span class="s1">&#39;</span><span class="p">,</span> <span class="p">}</span>
+</pre></div>
+</div>
+<p>Returns: Dictionary of Special Characters
+:rtype: <code class="xref py py-class docutils literal"><span class="pre">dict</span></code></p>
+</dd></dl>
 
 <dl class="method">
 <dt id="LcdScroll.lcdscroll.LcdScroller.trigger_cursor">
@@ -720,149 +870,103 @@ Second line.</p>
 </tr>
 </tbody>
 </table>
-<dl class="class">
-<dt id="LcdScroll.LcdScroller">
-<em class="property">class </em><code class="descclassname">LcdScroll.</code><code class="descname">LcdScroller</code><span class="sig-paren">(</span><em>cols=16</em>, <em>lines=2</em>, <em>direction=0</em>, <em>cursor=False</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LcdScroll/lcdscroll.html#LcdScroller"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LcdScroll.LcdScroller" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">object</span></code></p>
-<p>Parsing Control for Adafruit_CharLCD in CERMMorse</p>
-<p>This class implements a set of methods to scroll messages upward on a LCD display.
-The limits are adjustable to different lengths and rows depending on hardware, It parses
-the message into words and check if there is enough space left on the screen and if not
-pushes the display up then prints the word.
-Also a method to move the cursor from letter to letter like follow the bouncing ball
-in a sing along.</p>
-<div class="admonition-todo admonition" id="index-3">
-<p class="first admonition-title">Todo</p>
-<p class="last">remove this fake assignment of Lcd.Adafruit…</p>
-</div>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>cols</strong> (<code class="xref py py-class docutils literal"><span class="pre">int</span></code>) – (int, optional): Number of columns on display</li>
-<li><strong>lines</strong> (<code class="xref py py-class docutils literal"><span class="pre">int</span></code>) – (int, optional): Number of line on display</li>
-<li><strong>cursor</strong> (<code class="xref py py-class docutils literal"><span class="pre">bool</span></code>) – (bool, optional): True or False, enable bouncing ball style cursor</li>
-<li><strong>direction</strong> (<code class="xref py py-class docutils literal"><span class="pre">int</span></code>) – </li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-<dl class="attribute">
-<dt id="LcdScroll.LcdScroller.columns">
-<code class="descname">columns</code><a class="headerlink" href="#LcdScroll.LcdScroller.columns" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="LcdScroll.LcdScroller.display_cursor">
-<code class="descname">display_cursor</code><a class="headerlink" href="#LcdScroll.LcdScroller.display_cursor" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="LcdScroll.LcdScroller.display_size">
-<code class="descname">display_size</code><a class="headerlink" href="#LcdScroll.LcdScroller.display_size" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="LcdScroll.LcdScroller.lines">
-<code class="descname">lines</code><a class="headerlink" href="#LcdScroll.LcdScroller.lines" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="attribute">
-<dt id="LcdScroll.LcdScroller.message_text">
-<code class="descname">message_text</code><a class="headerlink" href="#LcdScroll.LcdScroller.message_text" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="LcdScroll.LcdScroller.send_character">
-<code class="descname">send_character</code><span class="sig-paren">(</span><em>char</em>, <em>position=(None</em>, <em>None)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LcdScroll/lcdscroll.html#LcdScroller.send_character"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LcdScroll.LcdScroller.send_character" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sends one character to the display. Primarily used by bouncing ball option.
-To be overridden by derived classes to add functionality.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
-<li><strong>char</strong> (<code class="xref py py-class docutils literal"><span class="pre">str</span></code>) – </li>
-<li><strong>position</strong> (<code class="xref py py-class docutils literal"><span class="pre">tuple</span></code>) – </li>
-</ul>
-</td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="method">
-<dt id="LcdScroll.LcdScroller.send_message">
-<code class="descname">send_message</code><span class="sig-paren">(</span><span class="sig-paren">)</span><a class="reference internal" href="_modules/LcdScroll/lcdscroll.html#LcdScroller.send_message"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LcdScroll.LcdScroller.send_message" title="Permalink to this definition">¶</a></dt>
-<dd><p>Method to initiate sending</p>
-<div class="admonition-todo admonition" id="index-4">
-<p class="first admonition-title">Todo</p>
-<p class="last">Not end of string in message?</p>
-</div>
-</dd></dl>
-
-<dl class="method">
-<dt id="LcdScroll.LcdScroller.send_word">
-<code class="descname">send_word</code><span class="sig-paren">(</span><em>word</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LcdScroll/lcdscroll.html#LcdScroller.send_word"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LcdScroll.LcdScroller.send_word" title="Permalink to this definition">¶</a></dt>
-<dd><p>Sends one word to the display.
-To be overridden by derived classes to add functionality.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>word</strong> (<code class="xref py py-class docutils literal"><span class="pre">str</span></code>) – </td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-<dl class="attribute">
-<dt id="LcdScroll.LcdScroller.special_characters">
-<code class="descname">special_characters</code><a class="headerlink" href="#LcdScroll.LcdScroller.special_characters" title="Permalink to this definition">¶</a></dt>
-<dd></dd></dl>
-
-<dl class="method">
-<dt id="LcdScroll.LcdScroller.trigger_cursor">
-<code class="descname">trigger_cursor</code><span class="sig-paren">(</span><em>position=(None</em>, <em>None)</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LcdScroll/lcdscroll.html#LcdScroller.trigger_cursor"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LcdScroll.LcdScroller.trigger_cursor" title="Permalink to this definition">¶</a></dt>
-<dd><p>Trigger the cursor movement or set to custom location.
-Second line.</p>
-<table class="docutils field-list" frame="void" rules="none">
-<col class="field-name" />
-<col class="field-body" />
-<tbody valign="top">
-<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>position</strong> (<code class="xref py py-class docutils literal"><span class="pre">tuple</span></code>) – </td>
-</tr>
-</tbody>
-</table>
-</dd></dl>
-
-</dd></dl>
-
 <dl class="exception">
 <dt id="LcdScroll.LcdScrollEx">
 <em class="property">exception </em><code class="descclassname">LcdScroll.</code><code class="descname">LcdScrollEx</code><span class="sig-paren">(</span><em>message</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LcdScroll/lcdscroll.html#LcdScrollEx"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LcdScroll.LcdScrollEx" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <code class="xref py py-class docutils literal"><span class="pre">Exception</span></code></p>
 <p>Internal Exception for Scroll Class</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><strong>message</strong> – </td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
 <dt id="LcdScroll.LcdScroll_CharLCDPlate">
 <em class="property">class </em><code class="descclassname">LcdScroll.</code><code class="descname">LcdScroll_CharLCDPlate</code><span class="sig-paren">(</span><em>cols=16</em>, <em>lines=2</em>, <em>cursor=False</em>, <em>direction=0</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LcdScroll/lcdscroll.html#LcdScroll_CharLCDPlate"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LcdScroll.LcdScroll_CharLCDPlate" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCDPlate" title="Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCDPlate"><code class="xref py py-class docutils literal"><span class="pre">Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCDPlate</span></code></a>, <a class="reference internal" href="#LcdScroll.lcdscroll.LcdScroller" title="LcdScroll.lcdscroll.LcdScroller"><code class="xref py py-class docutils literal"><span class="pre">LcdScroll.lcdscroll.LcdScroller</span></code></a></p>
-</dd></dl>
-
-<dl class="class">
-<dt id="LcdScroll.LcdScroll_CharLCD">
-<em class="property">class </em><code class="descclassname">LcdScroll.</code><code class="descname">LcdScroll_CharLCD</code><span class="sig-paren">(</span><em>cols</em>, <em>lines</em>, <em>cursor=False</em>, <em>direction=0</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LcdScroll/lcdscroll.html#LcdScroll_CharLCD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LcdScroll.LcdScroll_CharLCD" title="Permalink to this definition">¶</a></dt>
-<dd><p>Bases: <a class="reference internal" href="Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD" title="Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD"><code class="xref py py-class docutils literal"><span class="pre">Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_CharLCD</span></code></a>, <a class="reference internal" href="#LcdScroll.lcdscroll.LcdScroller" title="LcdScroll.lcdscroll.LcdScroller"><code class="xref py py-class docutils literal"><span class="pre">LcdScroll.lcdscroll.LcdScroller</span></code></a></p>
+<p>Wrapper Class for Adafruit_CharLCDPlate to add Scrolling:</p>
+<p>Class to represent and interact with an Adafruit Raspberry Pi character
+Lcd plate.</p>
+<p>Initialize the character Lcd plate.  Can optionally specify a separate
+I2C address or bus number, but the defaults should suffice for most needs.
+Can also optionally specify the number of columns and lines on the Lcd
+(default is 16x2).</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>address</strong> (<code class="xref py py-obj docutils literal"><span class="pre">hex</span></code>, optional) – I2C address</li>
+<li><strong>busnum</strong> – (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>, optional): I2C bus number</li>
+<li><strong>cols</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Number of columns on display (default 16)</li>
+<li><strong>lines</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Number of Lines on display (default 2)</li>
+<li><strong>direction</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Direction of Scroll - LCDSCROLL_UP, LCDSCROLL_DOWN  (default LCDSCROLL_DOWN)</li>
+<li><strong>cursor</strong> (<code class="xref py py-class docutils literal"><span class="pre">bool</span></code>) – Turn on the bouncing ball style cursor  (default False)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 <dl class="class">
 <dt id="LcdScroll.LcdScroll_RGBCharLCD">
 <em class="property">class </em><code class="descclassname">LcdScroll.</code><code class="descname">LcdScroll_RGBCharLCD</code><span class="sig-paren">(</span><em>cols</em>, <em>lines</em>, <em>cursor=False</em>, <em>direction=0</em>, <em>*args</em>, <em>**kwargs</em><span class="sig-paren">)</span><a class="reference internal" href="_modules/LcdScroll/lcdscroll.html#LcdScroll_RGBCharLCD"><span class="viewcode-link">[source]</span></a><a class="headerlink" href="#LcdScroll.LcdScroll_RGBCharLCD" title="Permalink to this definition">¶</a></dt>
 <dd><p>Bases: <a class="reference internal" href="Waxfruit_CharLCD.html#Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_RGBCharLCD" title="Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_RGBCharLCD"><code class="xref py py-class docutils literal"><span class="pre">Waxfruit_CharLCD.Waxfruit_CharLCD.Adafruit_RGBCharLCD</span></code></a>, <a class="reference internal" href="#LcdScroll.lcdscroll.LcdScroller" title="LcdScroll.lcdscroll.LcdScroller"><code class="xref py py-class docutils literal"><span class="pre">LcdScroll.lcdscroll.LcdScroller</span></code></a></p>
+<p>Wrapper Class for Adafruit_RBGCharLCD to add Scrolling:</p>
+<p>Class to represent and interact with an HD44780 character Lcd display with
+an RGB backlight.</p>
+<p>Initialize the Lcd with RGB backlight.  RS, EN, and D4…D7 parameters
+should be the pins connected to the Lcd RS, clock enable, and data line
+4 through 7 connections. The Lcd will be used in its 4-bit mode so these
+6 lines are the only ones required to use the Lcd.  You must also pass in
+the number of columns and lines on the Lcd.
+The red, green, and blue parameters define the pins which are connected
+to the appropriate backlight LEDs.  The invert_polarity parameter is a
+boolean that controls if the LEDs are on with a LOW or HIGH signal.  By
+default invert_polarity is True, i.e. the backlight LEDs are on with a
+low signal.  If you want to enable PWM on the backlight LEDs (for finer
+control of colors) and the hardware supports PWM on the provided pins,
+set enable_pwm to True.  Finally you can set an explicit initial backlight
+color with the initial_color parameter.  The default initial color is
+white (all LEDs lit).
+You can optionally pass in an explicit GPIO class,
+for example if you want to use an MCP230xx GPIO extender.  If you don’t
+pass in an GPIO instance, the default GPIO for the running platform will
+be used.</p>
+<table class="docutils field-list" frame="void" rules="none">
+<col class="field-name" />
+<col class="field-body" />
+<tbody valign="top">
+<tr class="field-odd field"><th class="field-name">Parameters:</th><td class="field-body"><ul class="first last simple">
+<li><strong>rs</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>en</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>d4</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>d5</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>d6</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>d7</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>cols</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Number of columns on display (default 16)</li>
+<li><strong>lines</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Number of Lines on display (default 2)</li>
+<li><strong>red</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>green</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>blue</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Pin Connection</li>
+<li><strong>gpio</strong> (<code class="xref py py-obj docutils literal"><span class="pre">obj</span></code>, optional) – Optional GPIO class</li>
+<li><strong>invert_polarity</strong> (<code class="xref py py-obj docutils literal"><span class="pre">bool</span></code>) – LEDs are on LOW(True) or HIGH(False)  (default True)</li>
+<li><strong>enable_pwm</strong> (<code class="xref py py-obj docutils literal"><span class="pre">bool</span></code>) – Option for finer control of color  (default False)</li>
+<li><strong>pwm</strong> (<code class="xref py py-obj docutils literal"><span class="pre">obj</span></code>, optional) – Optional PWM class</li>
+<li><strong>initial_color</strong> (<code class="xref py py-obj docutils literal"><span class="pre">tuple</span></code>) – Initial Color (Default (1.0, 1.0, 1.0)) (R, G, B)</li>
+<li><strong>direction</strong> (<code class="xref py py-obj docutils literal"><span class="pre">int</span></code>) – Direction of Scroll - LCDSCROLL_UP, LCDSCROLL_DOWN  (default DOWN)</li>
+<li><strong>cursor</strong> (<code class="xref py py-class docutils literal"><span class="pre">bool</span></code>) – Turn on the bouncing ball style cursor  (default False)</li>
+</ul>
+</td>
+</tr>
+</tbody>
+</table>
 </dd></dl>
 
 </div>

@@ -1,0 +1,29 @@
+tests package
+=============
+
+Subpackages
+-----------
+
+.. toctree::
+
+    tests.features
+
+Submodules
+----------
+
+tests\.test\_lcdScroll module
+-----------------------------
+
+.. automodule:: tests.test_lcdScroll
+    :members:
+    :undoc-members:
+    :show-inheritance:
+
+
+Module contents
+---------------
+
+.. automodule:: tests
+    :members:
+    :undoc-members:
+    :show-inheritance:

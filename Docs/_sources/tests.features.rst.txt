@@ -1,0 +1,17 @@
+tests\.features package
+=======================
+
+Subpackages
+-----------
+
+.. toctree::
+
+    tests.features.steps
+
+Module contents
+---------------
+
+.. automodule:: tests.features
+    :members:
+    :undoc-members:
+    :show-inheritance:

@@ -44,8 +44,11 @@ Depending on the font used to display these tables, the lines may not be equal. 
 .. moduleauthor:: James L. Key <james@bluepenguinslutions.com>
 
 """
-
-import Adafruit_CharLCD  # pylint: disable=F0401
+import os
+if os.name == 'nt':
+    import Waxfruit_CharLCD as Adafruit_CharLCD
+else:
+    import Adafruit_CharLCD  # pylint: disable=F0401
 
 
 LCDSCROLL_DOWN = 0
@@ -71,20 +74,12 @@ class LcdScroller:
         cols: (int, optional): Number of columns on display
         lines: (int, optional): Number of line on display
         cursor: (bool, optional): True or False, enable bouncing ball style cursor
-        direction:
+        direction (:obj:`int`): Direction of Scroll - LCDSCROLL_UP, LCDSCROLL_DOWN  (default DOWN)
 
 
     """
 
     def __init__(self, cols: int=16, lines: int=2, direction: int=LCDSCROLL_DOWN, cursor: bool=False):
-        """
-
-        Args:
-            cols:
-            lines:
-            direction:
-            cursor:
-        """
         self._display_size = [cols, lines]
         #: Internal Message to send
         self._message_text = ''
@@ -128,26 +123,26 @@ class LcdScroller:
 
     @property
     def special_characters(self) -> dict:
+        r"""
+                Property: List of special characters that need special handling
+
+                :getter: Get LcdScroll.special_characters property
+                :setter (Dictionary): Set LcdScroll.special_characters property
+
+                Example::
+
+                    spec_char = LcdScroll.special_characters()
+
+                    LcdScroll.special_characters({'\u00B': '\x00', }
+
+
+                Returns: Dictionary of Special Characters
+
+                """
         return self._special_characters
 
     @special_characters.setter
     def special_characters(self, special_characters: dict):
-        r"""
-        Property: List of special characters that need special handling
-
-        :getter: Get LcdScroll.special_characters property
-        :setter (Dictionary): Set LcdScroll.special_characters property
-
-        Example::
-
-            spec_char = LcdScroll.special_characters()
-
-            LcdScroll.special_characters({'\u00B': '\x00', }
-
-
-        Returns:
-
-        """
         self._special_characters = special_characters
 
     @property
@@ -377,93 +372,143 @@ class LcdScroller:
 
 class LcdScroll_CharLCD(Adafruit_CharLCD.Adafruit_CharLCD, LcdScroller):
     r"""
+    Wrapper Class for Adafruit_CharLCD to add Scrolling:
+
+    Class to represent and interact with an HD44780 character Lcd display.
+
+    Initialize the Lcd.  RS, EN, and D4...D7 parameters should be the pins
+    connected to the Lcd RS, clock enable, and data line 4 through 7 connections.
+    The Lcd will be used in its 4-bit mode so these 6 lines are the only ones
+    required to use the Lcd.  You must also pass in the number of columns and
+    lines on the Lcd.
+    If you would like to control the backlight, pass in the pin connected to
+    the backlight with the backlight parameter.  The invert_polarity boolean
+    controls if the backlight is one with a LOW signal or HIGH signal.  The
+    default invert_polarity value is True, i.e. the backlight is on with a
+    LOW signal.
+    You can enable PWM of the backlight pin to have finer control on the
+    brightness.  To enable PWM make sure your hardware supports PWM on the
+    provided backlight pin and set enable_pwm to True (the default is False).
+    The appropriate PWM library will be used depending on the platform, but
+    you can provide an explicit one with the pwm parameter.
+    The initial state of the backlight is ON, but you can set it to an
+    explicit initial state with the initial_backlight parameter (0 is off,
+    1 is on/full bright).
+    You can optionally pass in an explicit GPIO class,
+    for example if you want to use an MCP230xx GPIO extender.  If you don't
+    pass in an GPIO instance, the default GPIO for the running platform will
+    be used.
+
+    Args:
+        rs (:obj:`int`): Pin Connection
+        en (:obj:`int`): Pin Connection
+        d4 (:obj:`int`): Pin Connection
+        d5 (:obj:`int`): Pin Connection
+        d6 (:obj:`int`): Pin Connection
+        d7 (:obj:`int`): Pin Connection
+        backlight (:obj:`int`): Backlight Pin Connection
+        initial_backlight (:obj:`bool`):
+        cols (:obj:`int`): Number of columns on display (default 16)
+        lines (:obj:`int`): Number of Lines on display (default 2)
+        gpio (:obj:`obj`, optional): Optional GPIO class
+        invert_polarity (:obj:`bool`): Backlight is on LOW(True) or HIGH(False)  (default True)
+        enable_pwm (:obj:`bool`): Option for finer control of backlight  (default False)
+        pwm  (:obj:`obj`, optional): Optional PWM class
+        direction (:obj:`int`): Direction of Scroll - LCDSCROLL_UP, LCDSCROLL_DOWN  (default DOWN)
+        cursor: Turn on the bouncing ball style cursor  (default False)
 
     """
     def __init__(self, cols: int, lines: int, cursor: bool=False, direction: int=LCDSCROLL_DOWN, *args, **kwargs):
-        r"""
-
-        Args:
-            rs:
-            en:
-            d4:
-            d5:
-            d6:
-            d7:
-            cols:
-            lines:
-            backlight:
-            invert_polarity:
-            enable_pwm:
-            gpio:
-            pwm:
-            initial_backlight:
-            cursor:
-        """
-        super().__init__(self, *args, **kwargs)
         LcdScroller.__init__(self, cols=cols, lines=lines, direction=direction, cursor=cursor)
+        super().__init__(self, *args, **kwargs)
 
 
 class LcdScroll_CharLCDPlate(Adafruit_CharLCD.Adafruit_CharLCDPlate, LcdScroller):
     r"""
+    Wrapper Class for Adafruit_CharLCDPlate to add Scrolling:
+
+    Class to represent and interact with an Adafruit Raspberry Pi character
+    Lcd plate.
+
+    Initialize the character Lcd plate.  Can optionally specify a separate
+    I2C address or bus number, but the defaults should suffice for most needs.
+    Can also optionally specify the number of columns and lines on the Lcd
+    (default is 16x2).
+
+    Args:
+            address (:obj:`hex`, optional): I2C address
+            busnum: (:obj:`int`, optional): I2C bus number
+            cols (:obj:`int`): Number of columns on display (default 16)
+            lines (:obj:`int`): Number of Lines on display (default 2)
+            direction (:obj:`int`): Direction of Scroll - LCDSCROLL_UP, LCDSCROLL_DOWN  (default LCDSCROLL_DOWN)
+            cursor: Turn on the bouncing ball style cursor  (default False)
 
     """
     def __init__(self, cols: int =16, lines: int=2, cursor: bool=False, direction: int=LCDSCROLL_DOWN, *args, **kwargs):
-        r"""
-
-        Args:
-            address:
-            busnum:
-            cols:
-            lines:
-            cursor:
-        """
-
-        super().__init__(*args, **kwargs)
-
         LcdScroller.__init__(self, cols=cols, lines=lines, direction=direction, cursor=cursor)
+        super().__init__(*args, **kwargs)
 
 
 class LcdScroll_RGBCharLCD(Adafruit_CharLCD.Adafruit_RGBCharLCD, LcdScroller):
     r"""
+    Wrapper Class for Adafruit_RBGCharLCD to add Scrolling:
+
+    Class to represent and interact with an HD44780 character Lcd display with
+    an RGB backlight.
+
+    Initialize the Lcd with RGB backlight.  RS, EN, and D4...D7 parameters
+    should be the pins connected to the Lcd RS, clock enable, and data line
+    4 through 7 connections. The Lcd will be used in its 4-bit mode so these
+    6 lines are the only ones required to use the Lcd.  You must also pass in
+    the number of columns and lines on the Lcd.
+    The red, green, and blue parameters define the pins which are connected
+    to the appropriate backlight LEDs.  The invert_polarity parameter is a
+    boolean that controls if the LEDs are on with a LOW or HIGH signal.  By
+    default invert_polarity is True, i.e. the backlight LEDs are on with a
+    low signal.  If you want to enable PWM on the backlight LEDs (for finer
+    control of colors) and the hardware supports PWM on the provided pins,
+    set enable_pwm to True.  Finally you can set an explicit initial backlight
+    color with the initial_color parameter.  The default initial color is
+    white (all LEDs lit).
+    You can optionally pass in an explicit GPIO class,
+    for example if you want to use an MCP230xx GPIO extender.  If you don't
+    pass in an GPIO instance, the default GPIO for the running platform will
+    be used.
+
+    Args:
+            rs (:obj:`int`): Pin Connection
+            en (:obj:`int`): Pin Connection
+            d4 (:obj:`int`): Pin Connection
+            d5 (:obj:`int`): Pin Connection
+            d6 (:obj:`int`): Pin Connection
+            d7 (:obj:`int`): Pin Connection
+            cols (:obj:`int`): Number of columns on display (default 16)
+            lines (:obj:`int`): Number of Lines on display (default 2)
+            red (:obj:`int`): Pin Connection
+            green (:obj:`int`): Pin Connection
+            blue (:obj:`int`): Pin Connection
+            gpio (:obj:`obj`, optional): Optional GPIO class
+            invert_polarity (:obj:`bool`): LEDs are on LOW(True) or HIGH(False)  (default True)
+            enable_pwm (:obj:`bool`): Option for finer control of color  (default False)
+            pwm  (:obj:`obj`, optional): Optional PWM class
+            initial_color (:obj:`tuple`): Initial Color (Default (1.0, 1.0, 1.0)) (R, G, B)
+            direction (:obj:`int`): Direction of Scroll - LCDSCROLL_UP, LCDSCROLL_DOWN  (default DOWN)
+            cursor: Turn on the bouncing ball style cursor  (default False)
 
     """
     def __init__(self, cols: int, lines: int, cursor: bool=False, direction: int=LCDSCROLL_DOWN, *args, **kwargs):
-        r"""
-
-        Args:
-            rs:
-            en:
-            d4:
-            d5:
-            d6:
-            d7:
-            cols:
-            lines:
-            red:
-            green:
-            blue:
-            gpio:
-            invert_polarity:
-            enable_pwm:
-            pwm:
-            initial_color:
-            cursor:
-        """
-
-        super().__init__(*args, **kwargs)
-
         LcdScroller.__init__(self, cols=cols, lines=lines, direction=direction, cursor=cursor)
+        super().__init__(*args, **kwargs)
 
 
 class LcdScrollEx(Exception):
     """
     Internal Exception for Scroll Class
+
+    Args:
+            message
+
     """
     def __init__(self, message):
-        r"""
-
-        Args:
-            message:
-        """
         Exception.__init__(self)
         self.message = message
